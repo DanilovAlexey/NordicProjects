@@ -1,3 +1,29 @@
-.filter-news {
-	
+body {
+	background-color: #e6e7e8;
+}
+
+.nav-block {
+	background-color: #032a63;
+	color: white;
+}
+
+.nav-block a {
+	color: white;
+}
+
+.content {
+	background-color: white;
+	margin-top: 100px;
+	min-height: 800px;
+    border-radius: 7px;
+    border: 2px solid white;
+
+}
+
+.content > div {
+	margin-top: 15px;
+}
+
+.post-container {
+	width: 100%;
 }
