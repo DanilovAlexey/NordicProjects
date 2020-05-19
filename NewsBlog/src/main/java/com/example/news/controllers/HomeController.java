@@ -20,5 +20,10 @@ public class HomeController {
 	public String register() {
 		return "views/registration";
 	}
+	
+	@GetMapping("/blogs")
+	public String blogs() {
+		return "views/blogs";
+	}
 
 }
