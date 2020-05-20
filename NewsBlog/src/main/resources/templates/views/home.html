@@ -28,7 +28,25 @@
 		<div class="row">
 
 			<div class="container">
+				<th:block th:each="newsItem : ${newsList}">
 
+					<div class="card mb-3 post-container">
+						<div style="display: flex">
+							<div>
+								<img th:src=${newsItem.getNewsImage()}
+									class="card-img news-image" alt="...">
+							</div>
+							<div class="card-body" style="padding-bottom: 0">
+								<h5 th:text=${newsItem.getNewsTitle()} class="card-title"></h5>
+								<p th:text=${newsItem.getNewsBody()} class="card-text news-text"></p>
+								<p>
+									<small th:text=${newsItem.getNewsDate()} class="text-muted"></small>
+								</p>
+							</div>
+						</div>
+					</div>
+					<th:block />
+					<!-- 
 				<div class="card mb-3 post-container">
 					<div style="display: flex">
 						<div>
