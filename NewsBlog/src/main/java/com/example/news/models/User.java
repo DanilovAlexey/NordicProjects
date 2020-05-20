@@ -10,11 +10,12 @@ import lombok.ToString;
 @AllArgsConstructor
 @Getter
 @Setter
-@ToString(exclude = "userPassword")
-public class User {	
-	public String userLogin;
-	public String userPassword;
-	public String userName;
-	public String userAvatar;
+@ToString(exclude="password")
+public class User {
 	
+	private String userName;
+	private String password;
+	private Integer age;
+	private String userAvatar;
+
 }

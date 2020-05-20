@@ -1,24 +1,32 @@
-<!Doctype html>
+<!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{template}">
   <head>
+    <link href="/docs/4.5/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <title>Login</title>
   </head>
   <body class="text-center">
     <div layout:fragment="content" class="container">
-    <form class="form-signin">
-  <h1 class="h3 mb-3 font-weight-normal">Please sign in</h1>
-  <label for="inputEmail" class="sr-only">Email address</label>
-  <input type="email" id="inputEmail" class="form-control" placeholder="Email address" required="" autofocus="">
-  <label for="inputPassword" class="sr-only">Password</label>
-  <input type="password" id="inputPassword" class="form-control" placeholder="Password" required>
-  <div class="checkbox mb-3">
-    <label>
-      <input type="checkbox" value="remember-me"> Remember me
-    </label>
-  </div>
-  <button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
-</form>
-</div>
-</body>
+      <main role="main" class="containter">
+        <div class="starter-template">
+          <form th:action="@{/login}" th:object="${form}" method="POST" class="form-signin">
+            <h1 class="h3 mb-3 font-weight-normal">Please sign in</h1>
+            <input type="text" placeholder="Username" class="form-control" required th:field="*{login}">
+            <input type="password" placeholder="Password" class="form-control" required th:field="*{password}">
+            <button type="submit" class="btn btn-lg btn-primary btn-block">Sign in</button>
+        </form>
+        </div>
+        <!-- Для проверки -->
+        <div th:if="${error}">Вы ввели неверный пароль </div>
+        <div th:if="${user}">Вы зашли под пользователем как <span th:text="${user.userName}"></span></div>
+
+    </main>
+    </div>
+
+  </body>
+
 </html>

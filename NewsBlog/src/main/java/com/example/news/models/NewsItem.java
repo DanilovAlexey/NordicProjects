@@ -16,7 +16,7 @@ public class NewsItem {
 	private String newsTitle;
 	private String newsBody;
 	private String newsDate;
-	public String newsLink;
-	public String newsImage;
+	private String newsLink;
+	private String newsImage;
 	
 }
