@@ -12,6 +12,7 @@ import lombok.ToString;
 @Setter
 @ToString(exclude="password")
 public class User {
+	public static final String DEFAULT_AVATAR = "defaultava";
 	
 	private String userName;
 	private String password;

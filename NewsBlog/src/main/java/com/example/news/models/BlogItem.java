@@ -10,9 +10,9 @@ import lombok.Setter;
 @Getter
 @Setter
 public class BlogItem {
-	private String blogTitle;
 	private String blogBody;
 	private String blogImage;
-	private int userId;
+	private String blogDate;
+	private User user;
 	
 }

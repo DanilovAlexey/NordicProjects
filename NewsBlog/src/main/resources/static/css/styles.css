@@ -20,26 +20,25 @@ body {
 	border: 2px solid white;
 }
 
-.content > div {
+.content>div {
 	margin-top: 15px;
 	margin-bottom: 30px;
 }
 
 .news-text {
 	max-height: 95px;
-    text-overflow: ellipsis;
-    overflow: hidden;
+	text-overflow: ellipsis;
+	overflow: hidden;
 }
 
 .news-image {
 	width: 350px;
 }
 
-
 .post-container {
-	display:flex;
+	display: flex;
 	width: 100%;
-	max-height: 270px;	
+	max-height: 270px;
 }
 
 .blog-container {
@@ -47,9 +46,7 @@ body {
 	max-height: 480px;
 }
 
-.post-container:hover, 
-.blog-container:hover,
-.bloger-block:hover {
+.post-container:hover, .blog-container:hover, .bloger-block:hover {
 	background-color: #f5f8fa;
 	cursor: pointer;
 }
@@ -70,18 +67,23 @@ body {
 }
 
 .blog-image {
-	width: 100%;
+	/*width: 100%;*/
+	height: 320px;
 }
 
 .bloger-block {
 	margin-right: 15px;
-	display: inline-flex; 
+	display: inline-flex;
 	flex-direction: column;
 	padding: 5px;
 	border-radius: 7px;
+	height: 95px;
+	width: 105px;
+	border: 1px solid rgba(0, 0, 0, .125);
+	border-radius: .25rem;
 }
 
-.bloger-block > div {
+.bloger-block>div {
 	text-align: center;
 }
 
@@ -89,33 +91,39 @@ body {
 	margin: 0;
 }
 
+.bloger-block div:nth-last-child(1) {
+	text-overflow: ellipsis;
+	overflow: hidden;
+	white-space: nowrap;
+}
+
 .form-signin {
-  width: 100%;
-  max-width: 330px;
-  padding: 15px;
-  margin: auto;
+	width: 100%;
+	max-width: 330px;
+	padding: 15px;
+	margin: auto;
 }
 
 .form-signin .form-control {
-  position: relative;
-  box-sizing: border-box;
-  height: auto;
-  padding: 10px;
-  font-size: 16px;
+	position: relative;
+	box-sizing: border-box;
+	height: auto;
+	padding: 10px;
+	font-size: 16px;
 }
 
 .form-signin .form-control:focus {
-  z-index: 2;
+	z-index: 2;
 }
 
 .form-signin input[type="text"] {
-  margin-bottom: -1px;
-  border-bottom-right-radius: 0;
-  border-bottom-left-radius: 0;
+	margin-bottom: -1px;
+	border-bottom-right-radius: 0;
+	border-bottom-left-radius: 0;
 }
 
 .form-signin input[type="password"] {
-  margin-bottom: 10px;
-  border-top-left-radius: 0;
-  border-top-right-radius: 0;
+	margin-bottom: 10px;
+	border-top-left-radius: 0;
+	border-top-right-radius: 0;
 }
