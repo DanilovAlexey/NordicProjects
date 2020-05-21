@@ -12,7 +12,7 @@
   <body class="text-center">
     <div layout:fragment="content" class="container">
       <main role="main" class="containter">
-        <div class="starter-template">
+        <div class="starter-template" style="padding-top: 5rem">
           <form th:action="@{/login}" th:object="${form}" method="POST" class="form-signin">
             <h1 class="h3 mb-3 font-weight-normal">Please sign in</h1>
             <input type="text" placeholder="Username" class="form-control" required th:field="*{login}">
