@@ -6,13 +6,20 @@
     <link href="/docs/4.5/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-
     <title>Login</title>
+    <style>
+      form{
+        border: thick double #032A63;
+        font-family: Raleway-Black;
+        width: 450px;
+        padding: 20px;
+      }
+    </style>
   </head>
   <body class="text-center">
     <div layout:fragment="content" class="container">
       <main role="main" class="containter">
-        <div class="starter-template" style="padding-top: 5rem">
+        <div style="padding-top: 5rem">
           <form th:action="@{/login}" th:object="${form}" method="POST" class="form-signin">
             <h1 class="h3 mb-3 font-weight-normal">Please sign in</h1>
             <input type="text" placeholder="Username" class="form-control" required th:field="*{login}">
@@ -23,7 +30,6 @@
         <!-- Для проверки -->
         <div th:if="${error}">Вы ввели неверный пароль </div>
         <div th:if="${user}">Вы зашли под пользователем как <span th:text="${user.userName}"></span></div>
-
     </main>
     </div>
 
