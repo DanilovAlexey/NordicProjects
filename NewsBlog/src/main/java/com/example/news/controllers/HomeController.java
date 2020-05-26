@@ -1,5 +1,11 @@
 package com.example.news.controllers;
 
+import java.io.IOException;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.net.http.HttpClient;
+import java.net.http.HttpRequest;
+import java.net.http.HttpResponse;
 import java.util.ArrayList;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -11,8 +17,11 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import com.example.news.dto.RequestFormPassword;
 import com.example.news.models.BlogItem;
+import com.example.news.models.LentaHeadlines;
 import com.example.news.models.NewsItem;
 import com.example.news.models.User;
+import com.fasterxml.jackson.databind.DeserializationFeature;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 @Controller
 public class HomeController {
@@ -63,13 +72,33 @@ public class HomeController {
 
 	
 
-	@GetMapping({ "", "/", "home" })
-	public ModelAndView home() {
-		var modelAndView = new ModelAndView();
-		modelAndView.setViewName("views/home");
-		modelAndView.addObject("newsList", newsList);
-
-		return modelAndView;
+	/*
+	 * @GetMapping({ "", "/", "home" }) public ModelAndView home() { var
+	 * modelAndView = new ModelAndView(); modelAndView.setViewName("views/home");
+	 * modelAndView.addObject("newsList", newsList);
+	 * 
+	 * return modelAndView; }
+	 */
+	
+	@GetMapping({"", "/", "home" })
+	public String homePage(Model model) throws URISyntaxException, IOException, InterruptedException {
+		var httpClient = HttpClient.newHttpClient();
+		
+		var httpRequest = HttpRequest.newBuilder()
+				.GET()
+				.uri(new URI("https://api.lenta.ru/lists/latest"))
+				.build();
+			
+		var response = httpClient.send(httpRequest, HttpResponse.BodyHandlers.ofString());
+		
+		var objectMapper = new ObjectMapper();
+		
+		objectMapper.configure(DeserializationFeature.FAIL_ON_IGNORED_PROPERTIES, true);
+		
+		var lenta = objectMapper.readValue(response.body(), LentaHeadlines.class);
+		model.addAttribute("news", lenta.getHeadlines());
+		
+		return "views/home";
 	}
 
 	@GetMapping("/login")
