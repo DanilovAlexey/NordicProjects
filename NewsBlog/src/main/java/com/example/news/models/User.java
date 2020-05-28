@@ -14,10 +14,10 @@ import lombok.ToString;
 public class User {
 	public static final String DEFAULT_AVATAR = "defaultava";
 	
+	private String email;
 	private String userName;
 	private String password;
-	private Integer age;
 	private String userAvatar;
-	private String email;
+
 
 }

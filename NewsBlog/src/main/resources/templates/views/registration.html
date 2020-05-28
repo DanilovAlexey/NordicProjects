@@ -16,19 +16,15 @@
     	<div layout:fragment="content" class="container">
         <form  th:action="@{/register}" method="POST" th:object="${form}" class="form-signin" style="font-family: Raleway-Black">
           <div class="form-group">
-            <label for="formGroupExampleInput">Enter your name:</label>
-            <input type="text" class="form-control" placeholder="Name" required th:field="*{login}">
             <label for="formGroupExampleInput2">Enter your e-mail: </label>
             <input type="email" class="form-control" placeholder="Email" required th:field="*{email}">
-            <label for="formGroupExampleInput2">Enter your age: </label>
-            <input type="number" min="14" max="99" class="form-control" placeholder="Age" required th:field="*{age}">
-            <label for="formGroupExampleInput">Create a password:</label>
-            <input type="password" class="form-control" placeholder="Password" size="20" maxlength="20" required>
+            <label for="formGroupExampleInput">Enter your name:</label>
+            <input type="text" class="form-control" placeholder="Name" required th:field="*{userName}">
+           <label for="formGroupExampleInput">Create a password:</label>
+            <input type="password" class="form-control" placeholder="Password" size="20" maxlength="20" required th:field="*{password}">
             <small class="form-text text-muted">
             Your password must be 8-20 characters long.
             </small>
-            <label for="formGroupExampleInput">Password again:</label>
-            <input type="password" class="form-control" placeholder="Password" size="20" maxlength="20" required th:field="*{password}">
             <label for="formGroupExampleInput">Add your avatar:</label>
             <input type="file" accept="image/*">
           </div>

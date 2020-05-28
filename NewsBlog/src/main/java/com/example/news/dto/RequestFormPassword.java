@@ -12,10 +12,9 @@ import lombok.ToString;
 @Setter
 @ToString(exclude="password")
 public class RequestFormPassword {
-	
-	private String login;
-	private String password;
+		
 	private String email;
-	private int age;
+	private String password;
+	private String userName;
 
 }
