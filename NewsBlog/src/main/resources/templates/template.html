@@ -2,7 +2,7 @@
 <html lang="en" 
 xmlns:th="http://www.thymeleaf.org"
 xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
->
+xmlns:sec="http://www.thymeleaf.org">
 <head>
 <meta charset="utf-8">
 <meta name="viewport"
@@ -31,10 +31,15 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
 				<ul class="navbar-nav mr-auto">
 					<li class="nav-item active"><a class="nav-link" href="home">Home</a></li>
 					<li class="nav-item"><a class="nav-link" href="blogs">Blogs</a></li>
+					<li sec:authorize="hasRole('ROLE_ADMIN')" class="nav-item"><a class="nav-link" href="admin">Admin</a></li>
 				</ul>
-				<ul class="navbar-nav navbar-right">
+				<ul sec:authorize="!isAuthenticated()" class="navbar-nav navbar-right">
 					<li class="nav-item"><a class="nav-link" href="login">Login</a></li>
 					<li class="nav-item"><a class="nav-link" href="register">Register</a></li>
+				</ul>
+				<ul sec:authorize="isAuthenticated()" class="navbar-nav navbar-right">
+					<li class="nav-item"><span sec:authentication="name"></span></li>
+					<li class="nav-item"><a class="nav-link" href="logout">Logout</a></li>
 				</ul>
 			</div>
 		</div>

@@ -20,16 +20,15 @@
     <div layout:fragment="content" class="container">
       <main role="main" class="containter">
         <div style="padding-top: 5rem">
-          <form th:action="@{/login}" th:object="${form}" method="POST" class="form-signin">
+          <form th:action="@{/login}" method="POST" class="form-signin">
             <h1 class="h3 mb-3 font-weight-normal">Please sign in</h1>
-            <input type="text" placeholder="Username" class="form-control" required th:field="*{login}">
-            <input type="password" placeholder="Password" class="form-control" required th:field="*{password}">
+            <input type="text" placeholder="E-mail" class="form-control" name="username">
+            <input type="password" placeholder="Password" class="form-control" name="password">
             <button type="submit" class="btn btn-lg btn-primary btn-block">Sign in</button>
         </form>
         </div>
         <!-- Для проверки -->
-        <div th:if="${error}">Вы ввели неверный пароль </div>
-        <div th:if="${user}">Вы зашли под пользователем как <span th:text="${user.userName}"></span></div>
+        <div th:if="${loginError}"><span style="color:red">Вы ввели неверный логин или пароль</span></div>
     </main>
     </div>
 

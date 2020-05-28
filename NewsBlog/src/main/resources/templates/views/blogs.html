@@ -21,12 +21,12 @@
 					<div class="card blog-container">
 						<div class="no-gutters">
 							<div class="">
-								<img th:src=${blogItem.getUser().getUserAvatar()}
+								<img th:src=${usersList.get(blogItem.getUserLogin()).getUserAvatar()}
 									class="blog-avatar" alt="avatar">
 							</div>
 							<div class="">
 								<div class="card-body">
-									<h5 th:text=${blogItem.getUser().getUserName()}
+									<h5 th:text=${usersList.get(blogItem.getUserLogin()).getUserName()}
 										class="card-title"></h5>
 									<p th:text=${blogItem.getBlogBody()} class="card-text"></p>
 									<img th:if="${blogItem.getBlogImage() != ''}"
@@ -40,9 +40,9 @@
 					</div>
 					<th:block />
 			</div>
-
+<!--  
 			<div class="col-lg-3 col-md-3">
-				<th:block th:each="user : ${usersList}">
+				<th:block th:each="user : ${usersList.getUsers().values()}">
 					<div class="bloger-block">
 						<div>
 							<img
@@ -54,7 +54,7 @@
 						</div>
 					</div>
 					<th:block />
-			</div>
+			</div> -->
 		</div>
 	</div>
 

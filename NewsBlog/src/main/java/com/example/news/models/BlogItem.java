@@ -13,6 +13,6 @@ public class BlogItem {
 	private String blogBody;
 	private String blogImage;
 	private String blogDate;
-	private User user;
+	private String userLogin;
 	
 }
