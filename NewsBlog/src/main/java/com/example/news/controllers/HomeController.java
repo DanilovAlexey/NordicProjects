@@ -1,29 +1,28 @@
 package com.example.news.controllers;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
-import java.util.concurrent.ConcurrentHashMap;
-
-import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.web.authentication.WebAuthenticationDetails;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.example.news.config.UsersStorage;
 import com.example.news.dto.RequestFormPassword;
 import com.example.news.models.BlogItem;
 import com.example.news.models.NewsItem;
 import com.example.news.models.User;
+import com.example.news.storage.BlogsStorage;
 
 @Controller
 public class HomeController {
@@ -44,24 +43,13 @@ public class HomeController {
 		}
 	};
 
-	private ArrayList<BlogItem> blogsList = new ArrayList<BlogItem>() {
-		{
-			add(new BlogItem("Было бы неплохо сейчас махнуть куда-нибудь подальше.",
-					"https://content.skyscnr.com/m/1b51182679225810/original/GettyImages-147444574_doc.jpg?resize=1800px:1800px&quality=100",
-					"Wed, 20 May 2020 16:41:43 +0300", "ytka@ytka.ru"));
-			add(new BlogItem(
-					"Основатель Telegram Павел Дуров в своем официальном телеграм-канале объявил о прекращении работы над блокчейн-проектом TON."
-							+ " Причина — решение суда по иску Комиссии"
-							+ " по ценным бумагам и биржам США (SEC), запретившего выпуск"
-							+ " криптовалюты Gram. Решение суда Дуров назвал несправедливым и"
-							+ " предупредил мир о зависимости от США, которые могут закрыть"
-							+ " любой банк или банковский счет в мире.",
-					"", "Wed, 20 May 2020 16:41:43 +0300", "ytka@ytka.ru"));
-		}
-	};
-
 	@Autowired
 	UsersStorage usersStorage;
+	
+	@Autowired
+	BlogsStorage blogStorage;
+	
+	
 
 	@GetMapping({ "", "/", "home" })
 	public ModelAndView home() {
@@ -90,11 +78,25 @@ public class HomeController {
 	}
 
 	@PostMapping("/register")
-	public String registerHandlerPage(Model model, @ModelAttribute RequestFormPassword form) {
-		model.addAttribute("form", new RequestFormPassword());
+	public String registerHandlerPage(Model model, @ModelAttribute RequestFormPassword form,
+			@RequestParam("avatar") MultipartFile file) {
 
-		User user = new User(form.getEmail(), form.getUserName(), form.getPassword(), "");
-		usersStorage.addUser(user);
+		// System.out.println(file.getOriginalFilename());
+		User user = new User(form.getEmail(), form.getUserName(), form.getPassword(), User.DEFAULT_AVATAR);
+
+		if (!file.isEmpty()) {
+			Path root = Paths.get("src/main/resources/static/images/avatars/");
+			var prefix = System.currentTimeMillis() / 1000L;
+
+			try {
+				Files.copy(file.getInputStream(), root.resolve(prefix + "_" + file.getOriginalFilename()));
+			} catch (IOException e) {
+				System.out.println(e.getMessage());
+			}
+
+			user.setUserAvatar(prefix + "_" + file.getOriginalFilename());
+
+		}
 
 		return "redirect:/home";
 	}
@@ -103,9 +105,13 @@ public class HomeController {
 	public ModelAndView blogs() {
 		var modelAndView = new ModelAndView();
 		modelAndView.setViewName("views/blogs");
-		modelAndView.addObject("blogsList", blogsList);
+		modelAndView.addObject("blogsList",  blogStorage.getBlogsList());
 		modelAndView.addObject("usersList", usersStorage.getUsers());
-
+		
+		/*
+		for (var blog : blogStorage.getBlogsList())
+			System.out.println(blog);
+		*/
 		return modelAndView;
 	}
 
