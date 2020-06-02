@@ -56,13 +56,8 @@ public class AdminController {
 
 		}
 		
-		
-		
-		System.out.println(form);
-		
 		blogStorage.addBlogItem(form);
-		
-		
+				
 		return "redirect:/blogs";
 	}
 }

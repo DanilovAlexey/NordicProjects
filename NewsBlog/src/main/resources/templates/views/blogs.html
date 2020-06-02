@@ -22,7 +22,7 @@
 						<div class="no-gutters">
 							<div class="">
 								<img
-									th:src=@{/images/avatars/{path}(path=${usersList.get(blogItem.getUserLogin()).getUserAvatar()})}
+									th:src=@{/image/avatars/{path}(path=${usersList.get(blogItem.getUserLogin()).getUserAvatar()})}
 									class="blog-avatar" alt="avatar">
 							</div>
 							<div class="">
@@ -32,7 +32,9 @@
 										class="card-title"></h5>
 									<p th:text=${blogItem.getBlogBody()} class="card-text"></p>
 									<img th:if="${blogItem.getBlogImage() != ''}"
-										th:src=@{/images/blog/{path}(path=${blogItem.getBlogImage()})} class="blog-image" />					
+										 th:src=@{image/blog/{path}(path=${blogItem.getBlogImage()})} 
+										
+										class="blog-image" />					
 									<p class="card-text">
 										<small th:text=${blogItem.getBlogDate()} class="text-muted"></small>
 									</p>
@@ -48,7 +50,7 @@
 					<div class="bloger-block">
 						<div>
 							<img
-								th:src="@{/images/avatars/{path}(path=${user.getUserAvatar()})}"
+								th:src="@{/image/avatars/{path}(path=${user.getUserAvatar()})}"
 								class="blog-avatar" alt="avatar">
 						</div>
 						<div>

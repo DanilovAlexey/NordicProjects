@@ -1,5 +1,6 @@
 package com.example.news.controllers;
 
+import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -13,8 +14,11 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.example.news.config.UsersStorage;
@@ -57,6 +61,7 @@ public class HomeController {
 		modelAndView.setViewName("views/home");
 		modelAndView.addObject("newsList", newsList);
 
+		
 		return modelAndView;
 	}
 
@@ -98,6 +103,8 @@ public class HomeController {
 
 		}
 
+		usersStorage.addUser(user);
+		
 		return "redirect:/home";
 	}
 
@@ -108,11 +115,19 @@ public class HomeController {
 		modelAndView.addObject("blogsList",  blogStorage.getBlogsList());
 		modelAndView.addObject("usersList", usersStorage.getUsers());
 		
-		/*
-		for (var blog : blogStorage.getBlogsList())
-			System.out.println(blog);
-		*/
 		return modelAndView;
+	}
+	
+	@GetMapping("image/{path}/{imageName}")
+	@ResponseBody
+	public byte[] getImage(
+			@PathVariable(value = "path") String path,
+			@PathVariable(value = "imageName") String imageName) throws IOException {
+		Path root = Paths.get("src/main/resources/static/images/");
+
+	    File serverFile = new File(root + "/" + path + "/" + imageName);
+
+	    return Files.readAllBytes(serverFile.toPath());
 	}
 
 }
