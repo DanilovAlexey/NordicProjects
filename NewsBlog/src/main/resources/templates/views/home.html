@@ -26,21 +26,21 @@
 		</nav>
 
 		<div class="row">
-
+		
 			<div class="container">
-				<th:block th:each="newsItem : ${newsList}">
+				<th:block th:each="newsItem : ${news}">
 
 					<div class="card mb-3 post-container">
 						<div style="display: flex">
 							<div>
-								<img th:src=${newsItem.getNewsImage()}
+								<img th:src="${(newsItem.titleImage==null) ? '' : newsItem.titleImage.url}"
 									class="card-img news-image" alt="...">
 							</div>
 							<div class="card-body" style="padding-bottom: 0">
-								<h5 th:text=${newsItem.getNewsTitle()} class="card-title"></h5>
-								<p th:text=${newsItem.getNewsBody()} class="card-text news-text"></p>
+								<h5 th:text=${newsItem.info.title} class="card-title"></h5>
+								<p th:text=${newsItem.info.rightcol} class="card-text news-text"></p>
 								<p>
-									<small th:text=${newsItem.getNewsDate()} class="text-muted"></small>
+									<small th:text="${#dates.format(new java.util.Date(newsItem.info.modified*1000), 'dd-MM-yyyy HH:mm')}" class="text-muted"></small>
 								</p>
 							</div>
 						</div>
