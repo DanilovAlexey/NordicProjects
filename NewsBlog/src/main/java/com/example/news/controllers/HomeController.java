@@ -5,6 +5,10 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.http.HttpClient;
@@ -24,6 +28,8 @@ import org.springframework.web.multipart.MultipartFile;
 import com.example.news.config.UsersStorage;
 import com.example.news.dto.RequestFormPassword;
 import com.example.news.models.LentaHeadlines;
+import com.example.news.models.LentaNews;
+import com.example.news.models.LentaNewsRubric;
 import com.example.news.models.User;
 import com.example.news.storage.BlogsStorage;
 import com.fasterxml.jackson.databind.DeserializationFeature;
@@ -32,7 +38,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 @Controller
 public class HomeController {
 
-	
 	@Autowired
 	UsersStorage usersStorage;
 
@@ -40,7 +45,9 @@ public class HomeController {
 	BlogsStorage blogStorage;
 
 	@GetMapping({ "", "/", "home" })
-	public String homePage(Model model) throws URISyntaxException, IOException, InterruptedException {
+	public String homePage(Model model, @RequestParam(name = "slug", required = false) String slug)
+			throws URISyntaxException, IOException, InterruptedException {
+
 		var httpClient = HttpClient.newHttpClient();
 
 		var httpRequest = HttpRequest.newBuilder().GET().uri(new URI("https://api.lenta.ru/lists/latest")).build();
@@ -52,7 +59,28 @@ public class HomeController {
 		objectMapper.configure(DeserializationFeature.FAIL_ON_IGNORED_PROPERTIES, true);
 
 		var lenta = objectMapper.readValue(response.body(), LentaHeadlines.class);
-		model.addAttribute("news", lenta.getHeadlines());
+		
+		List<LentaNews> filteredNews = new ArrayList<LentaNews>();
+		
+		if (slug == null) {
+			//model.addAttribute("news", lenta.getHeadlines());
+			filteredNews = lenta.getHeadlines();
+		} else {
+			for (var item : lenta.getHeadlines()) {
+				if (item.getRubric().getSlug().equals(slug)) {
+					filteredNews.add(item);
+				}
+			}
+		}
+		
+
+		HashSet<LentaNewsRubric> rubrics = new HashSet<LentaNewsRubric>();
+		for (var item : lenta.getHeadlines()) {
+			rubrics.add(item.getRubric());
+		}
+
+		model.addAttribute("rubrics", rubrics);
+		model.addAttribute("news", filteredNews);
 
 		return "views/home";
 	}

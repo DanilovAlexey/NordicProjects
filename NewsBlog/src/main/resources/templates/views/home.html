@@ -8,10 +8,21 @@
 	<div layout:fragment="content" class="container">
 		<nav aria-label="Page navigation example"
 			style="display: flex; justify-content: space-between;">
-			<form class="form-inline my-2 my-lg-0">
-				<input class="form-control mr-sm-2" type="search"
-					placeholder="Search" aria-label="Search">
-			</form>
+			<div class="dropdown">
+				<a class="btn btn-info dropdown-toggle" href="#" role="button"
+					id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true"
+					aria-expanded="false">Рубрика</a>
+
+				<div id="rubrics" class="dropdown-menu"
+					aria-labelledby="dropdownMenuLink">
+					<a class="dropdown-item" href="/home">ВСЕ</a>
+					<th:block th:each="rubric : ${rubrics}">
+						<a class="dropdown-item"
+							th:href="@{/home(slug=${rubric.getSlug()})}"
+							th:text="${rubric.getTitle()}"></a>
+					</th:block>
+				</div>
+			</div>
 			<ul class="pagination justify-content-end">
 				<li class="page-item"><a class="page-link" href="#"
 					aria-label="Previous"> <span aria-hidden="true">&laquo;</span>
@@ -26,22 +37,29 @@
 		</nav>
 
 		<div class="row">
-		
+
 			<div class="container">
 				<th:block th:each="newsItem : ${news}">
 
 					<div class="card mb-3 post-container">
 						<div style="display: flex">
 							<div>
-								<img th:src="${(newsItem.titleImage==null) ? '' : newsItem.titleImage.url}"
+								<img
+									th:src="${(newsItem.titleImage==null) ? '' : newsItem.titleImage.url}"
 									class="card-img news-image" alt="...">
 							</div>
 							<div class="card-body" style="padding-bottom: 0">
 								<h5 th:text=${newsItem.info.title} class="card-title"></h5>
 								<p th:text=${newsItem.info.rightcol} class="card-text news-text"></p>
 								<p>
-									<small th:text="${#dates.format(new java.util.Date(newsItem.info.modified*1000), 'dd-MM-yyyy HH:mm')}" class="text-muted"></small>
+									<small
+										th:text="${#dates.format(new java.util.Date(newsItem.info.modified*1000), 'dd-MM-yyyy HH:mm')}"
+										class="text-muted"></small>
 								</p>
+								<h6 style="text-align: end">
+									<span th:text=${newsItem.rubric.getTitle()}
+										class="badge badge-info"></span>
+								</h6>
 							</div>
 						</div>
 					</div>
@@ -49,6 +67,6 @@
 			</div>
 		</div>
 	</div>
-
 </body>
 </html>
+
