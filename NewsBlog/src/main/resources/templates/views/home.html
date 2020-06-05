@@ -24,13 +24,13 @@
 				</div>
 			</div>
 			<ul class="pagination justify-content-end">
-				<li class="page-item"><a class="page-link" href="#"
+				<li class="page-item"><a class="page-link" href=#
 					aria-label="Previous"> <span aria-hidden="true">&laquo;</span>
 				</a></li>
-				<li class="page-item"><a class="page-link" href="#">1</a></li>
-				<li class="page-item"><a class="page-link" href="#">2</a></li>
-				<li class="page-item"><a class="page-link" href="#">3</a></li>
-				<li class="page-item"><a class="page-link" href="#"
+				<th:block th:each="num : ${nums}">
+				<li class="page-item"><a class="page-link" th:text="${num}" th:href="@{/home(id=${num})}"></a></li>
+				</th:block>
+				<li class="page-item"><a class="page-link" href=#
 					aria-label="Next"> <span aria-hidden="true">&raquo;</span>
 				</a></li>
 			</ul>
@@ -69,4 +69,3 @@
 	</div>
 </body>
 </html>
-
