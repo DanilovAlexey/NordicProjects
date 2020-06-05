@@ -45,19 +45,19 @@
 						<div style="display: flex">
 							<div>
 								<img
-									th:src="${(newsItem.titleImage==null) ? '' : newsItem.titleImage.url}"
+									th:src="${(newsItem.getTitleImage()==null) ? '' : newsItem.getTitleImage().getUrl()}"
 									class="card-img news-image" alt="...">
 							</div>
 							<div class="card-body" style="padding-bottom: 0">
-								<h5 th:text=${newsItem.info.title} class="card-title"></h5>
-								<p th:text=${newsItem.info.rightcol} class="card-text news-text"></p>
+								<h5 th:text=${newsItem.getInfo().getTitle()} class="card-title"></h5>
+								<p th:text=${newsItem.getInfo().getRightcol()} class="card-text news-text"></p>
 								<p>
 									<small
-										th:text="${#dates.format(new java.util.Date(newsItem.info.modified*1000), 'dd-MM-yyyy HH:mm')}"
+										th:text="${#dates.format(new java.util.Date(newsItem.getInfo().getModified()*1000), 'dd-MM-yyyy HH:mm')}"
 										class="text-muted"></small>
 								</p>
 								<h6 style="text-align: end">
-									<span th:text=${newsItem.rubric.getTitle()}
+									<span th:text=${newsItem.getRubric().getTitle()}
 										class="badge badge-info"></span>
 								</h6>
 							</div>
