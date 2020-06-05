@@ -63,7 +63,7 @@ public class HomeController {
 
 		List<LentaNews> filteredNews = new ArrayList<LentaNews>();
 
-		if (slug == null) {
+		if (slug == null || slug.isBlank() || slug.isEmpty()) {
 			// model.addAttribute("news", lenta.getHeadlines());
 			filteredNews = lenta.getHeadlines();
 		} else {

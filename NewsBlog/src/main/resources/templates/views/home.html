@@ -3,32 +3,74 @@
 	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
 	layout:decorate="~{template}">
 <head>
+<script src="https://code.jquery.com/jquery-1.9.1.min.js"></script>
+<script>
+	var getUrlParameter = function getUrlParameter(sParam) {
+		var sPageURL = window.location.search.substring(1), sURLVariables = sPageURL
+				.split('&'), sParameterName, i;
+
+		for (i = 0; i < sURLVariables.length; i++) {
+			sParameterName = sURLVariables[i].split('=');
+
+			if (sParameterName[0] === sParam) {
+				return sParameterName[1] === undefined ? true
+						: decodeURIComponent(sParameterName[1]);
+			}
+		}
+	};
+
+	$(function() {	
+		var pageNumber = getUrlParameter('id');
+		var slug = getUrlParameter('slug');
+		
+		// выделяем рубрику
+		$('#rubrics a').each((id, elem) => {
+			console.log(elem)
+			if ($(elem).attr('id') === slug) {
+				$(elem).addClass('active')
+				$('#dropdownMenuLink').text($(elem).text())
+			}
+		})
+		
+		// выделяем номер страницы
+		$('#pages li').map((item, elem) => {
+			
+			if ($(elem).children('a').text() === pageNumber) {
+				$(elem).addClass('active')
+			}			
+			//console.log($(elem).children('a').text());		
+		})
+		
+	});
+</script>
 </head>
 <body>
 	<div layout:fragment="content" class="container">
 		<nav aria-label="Page navigation example"
 			style="display: flex; justify-content: space-between;">
 			<div class="dropdown">
-				<a class="btn btn-info dropdown-toggle" href="#" role="button"
+				<a class="btn btn-info dropdown-toggle" href="/home?slug=''" role="button"
 					id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true"
-					aria-expanded="false">Рубрика</a>
+					aria-expanded="false">Все рубрики</a>
 
 				<div id="rubrics" class="dropdown-menu"
 					aria-labelledby="dropdownMenuLink">
-					<a class="dropdown-item" href="/home">ВСЕ</a>
+					<a class="dropdown-item" href="/home">Все рубрики</a>
 					<th:block th:each="rubric : ${rubrics}">
 						<a class="dropdown-item"
+							th:id="${rubric.getSlug()}"
 							th:href="@{/home(slug=${rubric.getSlug()})}"
 							th:text="${rubric.getTitle()}"></a>
 					</th:block>
 				</div>
 			</div>
-			<ul class="pagination justify-content-end">
+			<ul id="pages" class="pagination justify-content-end">
 				<li class="page-item"><a class="page-link" href=#
 					aria-label="Previous"> <span aria-hidden="true">&laquo;</span>
 				</a></li>
 				<th:block th:each="num : ${nums}">
-				<li class="page-item"><a class="page-link" th:text="${num}" th:href="@{/home(id=${num})}"></a></li>
+					<li class="page-item"><a class="page-link" th:text="${num}"
+						th:href="@{/home(id=${num},slug=${param.slug})}"></a></li>
 				</th:block>
 				<li class="page-item"><a class="page-link" href=#
 					aria-label="Next"> <span aria-hidden="true">&raquo;</span>
@@ -50,7 +92,8 @@
 							</div>
 							<div class="card-body" style="padding-bottom: 0">
 								<h5 th:text=${newsItem.getInfo().getTitle()} class="card-title"></h5>
-								<p th:text=${newsItem.getInfo().getRightcol()} class="card-text news-text"></p>
+								<p th:text=${newsItem.getInfo().getRightcol()}
+									class="card-text news-text"></p>
 								<p>
 									<small
 										th:text="${#dates.format(new java.util.Date(newsItem.getInfo().getModified()*1000), 'dd-MM-yyyy HH:mm')}"
@@ -68,4 +111,7 @@
 		</div>
 	</div>
 </body>
+
 </html>
+
+
