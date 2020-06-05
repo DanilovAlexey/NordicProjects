@@ -20,9 +20,8 @@ public class UsersStorage {
 	public UsersStorage() {
 		this.users = new ConcurrentHashMap<String, User>() {
 			{
-				put("admin@admin.com", new User("admin@admin.com", "Vlad", "12345", ""));
-				put("ytka@ytka.ru", new User("ytka@ytka.ru", "Utkins", "12345",
-						"https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcQqG2UN8kh8z6xn3BBKHS-MU9W0F1PEbU8qHzIJ2xS-jSq_BfRZ&usqp=CAU"));
+				put("admin@admin.com", new User("admin@admin.com", "Vlad", "12345", User.DEFAULT_AVATAR));
+				put("ytka@ytka.ru", new User("ytka@ytka.ru", "Utkins", "12345", "alexey.jpg"));
 			}
 		};
 	}

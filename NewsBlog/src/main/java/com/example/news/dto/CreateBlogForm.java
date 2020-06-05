@@ -1,4 +1,4 @@
-package com.example.news.models;
+package com.example.news.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -11,10 +11,9 @@ import lombok.ToString;
 @Getter
 @Setter
 @ToString
-public class BlogItem {
+public class CreateBlogForm {
 	private String blogBody;
 	private String blogImage;
 	private String blogDate;
 	private String userLogin;
-	
 }

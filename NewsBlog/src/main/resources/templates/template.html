@@ -38,7 +38,7 @@ xmlns:sec="http://www.thymeleaf.org">
 					<li class="nav-item"><a class="nav-link" href="register">Register</a></li>
 				</ul>
 				<ul sec:authorize="isAuthenticated()" class="navbar-nav navbar-right">
-					<li class="nav-item"><span sec:authentication="name"></span></li>
+					<li class="nav-item" style="display:flex"><span style="align-self:center" sec:authentication="name"></span></li>
 					<li class="nav-item"><a class="nav-link" href="logout">Logout</a></li>
 				</ul>
 			</div>
