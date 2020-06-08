@@ -40,19 +40,22 @@ public class AdminController {
 			@RequestParam("image") MultipartFile file,
 			Authentication authentication) {
 		
+		var time =  System.currentTimeMillis() / 1000L;
+		
 		form.setUserLogin(authentication.getName());
+		form.setBlogDate(time);
 		
 		if (!file.isEmpty()) {
 			Path root = Paths.get("src/main/resources/static/images/blog/");
-			var prefix = System.currentTimeMillis() / 1000L;
+			
 
 			try {
-				Files.copy(file.getInputStream(), root.resolve(prefix + "_" + file.getOriginalFilename()));
+				Files.copy(file.getInputStream(), root.resolve(time + "_" + file.getOriginalFilename()));
 			} catch (IOException e) {
 				System.out.println(e.getMessage());
 			}
 
-			form.setBlogImage(prefix + "_" + file.getOriginalFilename());
+			form.setBlogImage(time + "_" + file.getOriginalFilename());
 
 		}
 		

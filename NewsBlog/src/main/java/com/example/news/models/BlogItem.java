@@ -14,7 +14,7 @@ import lombok.ToString;
 public class BlogItem {
 	private String blogBody;
 	private String blogImage;
-	private String blogDate;
+	private Long blogDate;
 	private String userLogin;
 	
 }

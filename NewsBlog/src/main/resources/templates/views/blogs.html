@@ -31,12 +31,13 @@
 										th:text=${usersList.get(blogItem.getUserLogin()).getUserName()}
 										class="card-title"></h5>
 									<p th:text=${blogItem.getBlogBody()} class="card-text"></p>
-									<img th:if="${blogItem.getBlogImage() != ''}"
-										 th:src=@{image/blog/{path}(path=${blogItem.getBlogImage()})} 
-										
-										class="blog-image" />					
+									<img th:if="${blogItem.getBlogImage() != null}"
+										th:src=@{image/blog/{path}(path=${blogItem.getBlogImage()})}
+										class="blog-image" />
 									<p class="card-text">
-										<small th:text=${blogItem.getBlogDate()} class="text-muted"></small>
+										<small
+											th:text="${#dates.format(new java.util.Date(blogItem.getBlogDate()*1000), 'dd-MM-yyyy HH:mm')}"
+											class="text-muted"></small>
 									</p>
 								</div>
 							</div>

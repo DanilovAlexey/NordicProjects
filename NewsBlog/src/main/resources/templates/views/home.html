@@ -25,7 +25,7 @@
 		
 		// выделяем рубрику
 		$('#rubrics a').each((id, elem) => {
-			console.log(elem)
+			//console.log(elem)
 			if ($(elem).attr('id') === slug) {
 				$(elem).addClass('active')
 				$('#dropdownMenuLink').text($(elem).text())
@@ -49,13 +49,13 @@
 		<nav aria-label="Page navigation example"
 			style="display: flex; justify-content: space-between;">
 			<div class="dropdown">
-				<a class="btn btn-info dropdown-toggle" href="/home?slug=''" role="button"
+				<a class="btn btn-info dropdown-toggle" href="" role="button"
 					id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true"
 					aria-expanded="false">Все рубрики</a>
 
 				<div id="rubrics" class="dropdown-menu"
 					aria-labelledby="dropdownMenuLink">
-					<a class="dropdown-item" href="/home">Все рубрики</a>
+					<a class="dropdown-item" href="/home?slug=all">Все рубрики</a>
 					<th:block th:each="rubric : ${rubrics}">
 						<a class="dropdown-item"
 							th:id="${rubric.getSlug()}"
@@ -65,16 +65,10 @@
 				</div>
 			</div>
 			<ul id="pages" class="pagination justify-content-end">
-				<li class="page-item"><a class="page-link" href=#
-					aria-label="Previous"> <span aria-hidden="true">&laquo;</span>
-				</a></li>
 				<th:block th:each="num : ${nums}">
 					<li class="page-item"><a class="page-link" th:text="${num}"
-						th:href="@{/home(id=${num},slug=${param.slug})}"></a></li>
+						th:href="@{/home(id=${num},slug=${param.slug} ? ${param.slug} : 'all')}"></a></li>
 				</th:block>
-				<li class="page-item"><a class="page-link" href=#
-					aria-label="Next"> <span aria-hidden="true">&raquo;</span>
-				</a></li>
 			</ul>
 		</nav>
 

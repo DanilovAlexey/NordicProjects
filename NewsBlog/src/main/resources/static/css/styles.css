@@ -57,6 +57,7 @@ body {
 
 .blog-avatar {
 	width: 60px;
+	height: 60px;
 	border-radius: 40px;
 	margin-top: 1.25rem;
 	margin-left: 1rem;

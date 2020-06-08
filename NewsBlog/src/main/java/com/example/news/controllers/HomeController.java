@@ -46,7 +46,7 @@ public class HomeController {
 
 	@GetMapping({ "", "/", "home" })
 	public String homePage(Model model, @RequestParam(name = "id", required = false, defaultValue = "1") Integer reqId,
-			@RequestParam(name = "slug", required = false) String slug)
+			@RequestParam(name = "slug", required = true, defaultValue = "all") String slug)
 			throws URISyntaxException, IOException, InterruptedException {
 
 		var httpClient = HttpClient.newHttpClient();
@@ -63,7 +63,7 @@ public class HomeController {
 
 		List<LentaNews> filteredNews = new ArrayList<LentaNews>();
 
-		if (slug == null || slug.isBlank() || slug.isEmpty()) {
+		if (slug.equals("all") || slug.isBlank() || slug.isEmpty()) {
 			// model.addAttribute("news", lenta.getHeadlines());
 			filteredNews = lenta.getHeadlines();
 		} else {

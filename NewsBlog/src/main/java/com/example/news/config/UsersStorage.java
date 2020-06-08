@@ -20,8 +20,7 @@ public class UsersStorage {
 	public UsersStorage() {
 		this.users = new ConcurrentHashMap<String, User>() {
 			{
-				put("admin@admin.com", new User("admin@admin.com", "Vlad", "12345", User.DEFAULT_AVATAR));
-				put("ytka@ytka.ru", new User("ytka@ytka.ru", "Utkins", "12345", "alexey.jpg"));
+				put("admin@admin.com", new User("admin@admin.com", "Admin", "12345", User.DEFAULT_AVATAR));
 			}
 		};
 	}
