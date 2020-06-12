@@ -1,0 +1,187 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "description": "Description of our project",
+    "version": "0.0.1",
+    "title": "TouristeR",
+    "contact": {
+      "email": "vladgitar99@gmail.com"
+    }
+  },
+  "host": "localhost:8080",
+  "tags": [
+    {
+      "name": "admin",
+      "description": "Operations about user"
+    }
+  ],
+  "schemes": [
+    "http"
+  ],
+  "paths": {
+    "/admin": {
+      "get": {
+        "tags": [
+          "admin"
+        ],
+        "summary": "Shows the form for adding a message",
+        "description": "",
+        "operationId": "index",
+        "produces": [
+          "text/html"
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation"
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "admin"
+        ],
+        "summary": "Shows error message",
+        "description": "",
+        "operationId": "addBlogHandler",
+        "produces": [
+          "text/html"
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation"
+          }
+        }
+      }
+    },
+    "/login": {
+      "get": {
+        "tags": [
+          "admin"
+        ],
+        "summary": "Logs user into the system",
+        "description": "",
+        "operationId": "loginPage",
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "default": {
+            "description": "successful operation"
+          }
+        }
+      }
+    },
+    "/login-error": {
+      "get": {
+        "tags": [
+          "admin"
+        ],
+        "summary": "Shows error message",
+        "description": "",
+        "operationId": "loginPageError",
+        "produces": [
+          "text/html"
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation"
+          }
+        }
+      }
+    },
+    "/register": {
+      "post": {
+        "tags": [
+          "admin"
+        ],
+        "summary": "Create user",
+        "description": "",
+        "operationId": "register",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "Created user object",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/User"
+            }
+          }
+        ],
+        "responses": {
+          "default": {
+            "description": "successful operation"
+          }
+        }
+      }
+    },
+    "/home": {
+      "get": {
+        "summary": "Shows news",
+        "description": "Сan be shown by category",
+        "operationId": "blogs",
+        "produces": [
+          "text/html"
+        ],
+        "parameters": [
+          {
+            "name": "slug",
+            "in": "query",
+            "description": "Selects a category",
+            "required": false,
+            "type": "string",
+            "format": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation"
+          }
+        }
+      }
+    },
+    "/blogs": {
+      "get": {
+        "summary": "Shows blogs",
+        "description": "",
+        "operationId": "blogsPage",
+        "produces": [
+          "text/html"
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation"
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "User": {
+      "type": "object",
+      "properties": {
+        "email": {
+          "type": "string"
+        },
+        "userName": {
+          "type": "string"
+        },
+        "password": {
+          "type": "string"
+        },
+        "userAvatar": {
+          "type": "string"
+        }
+      },
+      "xml": {
+        "name": "User"
+      }
+    }
+  }
+}
