@@ -24,19 +24,20 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
-import com.example.news.config.UsersStorage;
+
 import com.example.news.dto.RequestFormPassword;
 import com.example.news.models.LentaHeadlines;
 import com.example.news.models.LentaNews;
 import com.example.news.models.LentaNewsRubric;
 import com.example.news.models.User;
 import com.example.news.storage.BlogsStorage;
+import com.example.news.storage.UsersStorage;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 @Controller
 public class HomeController {
-	final int AMOUNT_OF_NEWS = 5;
+	private final int AMOUNT_OF_NEWS = 5;
 
 	@Autowired
 	UsersStorage usersStorage;

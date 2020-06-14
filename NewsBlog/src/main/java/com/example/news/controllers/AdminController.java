@@ -15,9 +15,6 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
-
-import com.example.news.dto.CreateBlogForm;
-import com.example.news.dto.RequestFormPassword;
 import com.example.news.models.BlogItem;
 import com.example.news.storage.BlogsStorage;
 
