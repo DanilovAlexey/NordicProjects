@@ -1,20 +1,15 @@
 package com.example.news.models;
 
+public abstract class NewsItem {
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+	public abstract String getTitle();
 
-@NoArgsConstructor
-@AllArgsConstructor
-@Getter
-@Setter
-public class NewsItem {
-	private String newsTitle;
-	private String newsBody;
-	private String newsDate;
-	private String newsLink;
-	private String newsImage;
-	
+	public abstract String getDescription();
+
+	public abstract String getImage();
+
+	public abstract Rubric getRubric();
+
+	public abstract Long getDate();
+
 }

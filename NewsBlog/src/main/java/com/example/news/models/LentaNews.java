@@ -18,14 +18,34 @@ import lombok.ToString;
 @ToString
 @JsonIgnoreProperties(ignoreUnknown = true)
 
-public class LentaNews {
-	
-	private String type;
+public class LentaNews extends NewsItem {
+
 	private LentaNewsInfo info;
 	private LentaNewsLink links;
 	private LentaNewsRubric rubric;
 	private List<LentaNewsTag> tags;
-	
+
 	@JsonProperty("title_image")
 	private LentaNewsImage titleImage;
+
+	@Override
+	public String getTitle() {
+		return info.getTitle();
+	}
+
+	@Override
+	public String getDescription() {
+		return info.getRightcol();
+	}
+
+	@Override
+	public String getImage() {
+		return titleImage.getUrl();
+	}
+
+	@Override
+	public Long getDate() {
+		return info.getModified();
+	}
+
 }

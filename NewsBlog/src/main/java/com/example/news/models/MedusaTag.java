@@ -11,11 +11,20 @@ import lombok.ToString;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-@EqualsAndHashCode
 @ToString
-public class LentaNewsRubric extends Rubric {
+@EqualsAndHashCode
+public class MedusaTag extends Rubric {
 
-	private String slug;
-	private String title;
+	private String name;
+	private String path;
 
+	@Override
+	public String getSlug() {
+		return path;
+	}
+
+	@Override
+	public String getTitle() {
+		return name;
+	}
 }

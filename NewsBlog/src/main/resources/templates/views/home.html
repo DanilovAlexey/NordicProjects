@@ -80,17 +80,17 @@
 					<div class="card mb-3 post-container">
 						<div style="display: flex">
 							<div>
-								<img
-									th:src="${(newsItem.getTitleImage()==null) ? '' : newsItem.getTitleImage().getUrl()}"
-									class="card-img news-image" alt="...">
+								  <img
+									th:src="${(newsItem.getImage()==null) ? '' : newsItem.getImage()}"
+									class="card-img news-image" alt="..."> 
 							</div>
 							<div class="card-body" style="padding-bottom: 0">
-								<h5 th:text=${newsItem.getInfo().getTitle()} class="card-title"></h5>
-								<p th:text=${newsItem.getInfo().getRightcol()}
+								<h5 th:text=${newsItem.getTitle()} class="card-title"></h5>
+								<p th:text=${newsItem.getDescription()}
 									class="card-text news-text"></p>
 								<p>
 									<small
-										th:text="${#dates.format(new java.util.Date(newsItem.getInfo().getModified()*1000), 'dd-MM-yyyy HH:mm')}"
+										th:text="${#dates.format(new java.util.Date(newsItem.getDate()*1000), 'dd-MM-yyyy HH:mm')}"
 										class="text-muted"></small>
 								</p>
 								<h6 style="text-align: end">

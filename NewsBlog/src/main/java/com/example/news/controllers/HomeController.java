@@ -1,5 +1,6 @@
 package com.example.news.controllers;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -8,6 +9,11 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
+import java.util.concurrent.CopyOnWriteArrayList;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.TimeUnit;
+import java.util.zip.GZIPInputStream;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.http.HttpClient;
@@ -25,10 +31,13 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.example.news.models.MedusaNews;
 import com.example.news.dto.RequestFormPassword;
 import com.example.news.models.LentaHeadlines;
-import com.example.news.models.LentaNews;
 import com.example.news.models.LentaNewsRubric;
+import com.example.news.models.Medusa;
+import com.example.news.models.NewsItem;
+import com.example.news.models.Rubric;
 import com.example.news.models.User;
 import com.example.news.storage.BlogsStorage;
 import com.example.news.storage.UsersStorage;
@@ -62,13 +71,24 @@ public class HomeController {
 
 		var lenta = objectMapper.readValue(response.body(), LentaHeadlines.class);
 
-		List<LentaNews> filteredNews = new ArrayList<LentaNews>();
+		var news = new ArrayList<NewsItem>(lenta.getHeadlines());
+
+		var medusa = objectMapper.readValue(
+				requestToMedusa("https://meduza.io/api/v3/search?chrono=news&locale=ru&page=0&per_page=24"),
+				Medusa.class);
+
+		for (var item : medusa.getCollection()) {
+			var medusaNews = objectMapper.readValue(requestToMedusa("https://meduza.io/api/v3/" + item),
+					MedusaNews.class);
+			news.add(medusaNews.getRoot());
+		}
+
+		List<NewsItem> filteredNews = new ArrayList<NewsItem>();
 
 		if (slug.equals("all") || slug.isBlank() || slug.isEmpty()) {
-			// model.addAttribute("news", lenta.getHeadlines());
-			filteredNews = lenta.getHeadlines();
+			filteredNews = news;
 		} else {
-			for (var item : lenta.getHeadlines()) {
+			for (var item : news) {
 				if (item.getRubric().getSlug().equals(slug)) {
 					filteredNews.add(item);
 
@@ -76,9 +96,10 @@ public class HomeController {
 			}
 		}
 
-		HashSet<LentaNewsRubric> rubrics = new HashSet<LentaNewsRubric>();
-		for (var item : lenta.getHeadlines()) {
+		HashSet<Rubric> rubrics = new HashSet<Rubric>();
+		for (var item : news) {
 			rubrics.add(item.getRubric());
+
 		}
 
 		List<Integer> pagNum = new ArrayList<>();
@@ -88,7 +109,7 @@ public class HomeController {
 		}
 
 		if (filteredNews.size() >= 5) {
-			List<LentaNews> result = new ArrayList<LentaNews>();
+			List<NewsItem> result = new ArrayList<>();
 
 			int start = (reqId - 1) * AMOUNT_OF_NEWS;
 			int end = AMOUNT_OF_NEWS * reqId;
@@ -107,6 +128,31 @@ public class HomeController {
 		model.addAttribute("rubrics", rubrics);
 
 		return "views/home";
+	}
+
+	public String requestToMedusa(String uri) throws URISyntaxException, IOException, InterruptedException {
+
+		var httpClient = HttpClient.newHttpClient();
+		var httpRequestForMedusa = HttpRequest.newBuilder().GET().uri(new URI(uri)).build();
+
+		var medResponse = httpClient.send(httpRequestForMedusa, HttpResponse.BodyHandlers.ofInputStream());
+
+		byte[] readBuffer = new byte[5000];
+		var inputStream = new GZIPInputStream(medResponse.body());
+		var outputStream = new ByteArrayOutputStream();
+
+		while (inputStream.available() > 0) {
+			int count = inputStream.read(readBuffer);
+			outputStream.write(readBuffer, 0, count);
+		}
+		inputStream.close();
+
+		byte[] resultArray = outputStream.toByteArray();
+
+		var message = new String(resultArray, "UTF-8");
+		outputStream.close();
+
+		return message;
 	}
 
 	@GetMapping("/login")
