@@ -15,7 +15,7 @@ import lombok.ToString;
 @ToString
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class LentaNewsInfo {
-	
+
 	private String id;
 	private String title;
 	private String rightcol;

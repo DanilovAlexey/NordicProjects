@@ -15,8 +15,8 @@ import lombok.ToString;
 @NoArgsConstructor
 @ToString
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class Medusa {
+public class NewsApiOrgArticles {
 
-	private List<String> collection;
+	private List<NewsApiItem> articles;
 
 }

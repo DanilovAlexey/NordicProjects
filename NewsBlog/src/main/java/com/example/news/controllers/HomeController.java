@@ -1,6 +1,5 @@
 package com.example.news.controllers;
 
-import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -9,11 +8,6 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
-import java.util.concurrent.CopyOnWriteArrayList;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-import java.util.concurrent.TimeUnit;
-import java.util.zip.GZIPInputStream;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.http.HttpClient;
@@ -31,11 +25,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.example.news.models.MedusaNews;
 import com.example.news.dto.RequestFormPassword;
 import com.example.news.models.LentaHeadlines;
-import com.example.news.models.LentaNewsRubric;
-import com.example.news.models.Medusa;
+import com.example.news.models.NewsApiOrgArticles;
 import com.example.news.models.NewsItem;
 import com.example.news.models.Rubric;
 import com.example.news.models.User;
@@ -73,25 +65,25 @@ public class HomeController {
 
 		var news = new ArrayList<NewsItem>(lenta.getHeadlines());
 
-		var medusa = objectMapper.readValue(
-				requestToMedusa("https://meduza.io/api/v3/search?chrono=news&locale=ru&page=0&per_page=24"),
-				Medusa.class);
+		var httpRequest2 = HttpRequest.newBuilder().GET().uri(new URI(
+				"http://newsapi.org/v2/top-headlines?sources=techcrunch&apiKey=5cc01c4964584ce1a8feb76710b818e5"))
+				.build();
 
-		for (var item : medusa.getCollection()) {
-			var medusaNews = objectMapper.readValue(requestToMedusa("https://meduza.io/api/v3/" + item),
-					MedusaNews.class);
-			news.add(medusaNews.getRoot());
-		}
+		var response2 = httpClient.send(httpRequest2, HttpResponse.BodyHandlers.ofInputStream());
+		var newsApiOrg = objectMapper.readValue(response2.body(), NewsApiOrgArticles.class);
+		news.addAll(newsApiOrg.getArticles());
 
 		List<NewsItem> filteredNews = new ArrayList<NewsItem>();
 
 		if (slug.equals("all") || slug.isBlank() || slug.isEmpty()) {
+
+			news.sort((o1, o2) -> o1.getDate() < o2.getDate() ? 1 : -1);
 			filteredNews = news;
+
 		} else {
 			for (var item : news) {
 				if (item.getRubric().getSlug().equals(slug)) {
 					filteredNews.add(item);
-
 				}
 			}
 		}
@@ -128,31 +120,6 @@ public class HomeController {
 		model.addAttribute("rubrics", rubrics);
 
 		return "views/home";
-	}
-
-	public String requestToMedusa(String uri) throws URISyntaxException, IOException, InterruptedException {
-
-		var httpClient = HttpClient.newHttpClient();
-		var httpRequestForMedusa = HttpRequest.newBuilder().GET().uri(new URI(uri)).build();
-
-		var medResponse = httpClient.send(httpRequestForMedusa, HttpResponse.BodyHandlers.ofInputStream());
-
-		byte[] readBuffer = new byte[5000];
-		var inputStream = new GZIPInputStream(medResponse.body());
-		var outputStream = new ByteArrayOutputStream();
-
-		while (inputStream.available() > 0) {
-			int count = inputStream.read(readBuffer);
-			outputStream.write(readBuffer, 0, count);
-		}
-		inputStream.close();
-
-		byte[] resultArray = outputStream.toByteArray();
-
-		var message = new String(resultArray, "UTF-8");
-		outputStream.close();
-
-		return message;
 	}
 
 	@GetMapping("/login")

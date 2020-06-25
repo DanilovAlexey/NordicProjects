@@ -55,10 +55,10 @@
 
 				<div id="rubrics" class="dropdown-menu"
 					aria-labelledby="dropdownMenuLink">
-					<a class="dropdown-item" href="/home?slug=all">Все рубрики</a>
+					<a class="dropdown-item" href="/home?slug=all">Все
+						рубрики</a>
 					<th:block th:each="rubric : ${rubrics}">
-						<a class="dropdown-item"
-							th:id="${rubric.getSlug()}"
+						<a class="dropdown-item" th:id="${rubric.getSlug()}"
 							th:href="@{/home(slug=${rubric.getSlug()})}"
 							th:text="${rubric.getTitle()}"></a>
 					</th:block>
@@ -80,9 +80,9 @@
 					<div class="card mb-3 post-container">
 						<div style="display: flex">
 							<div>
-								  <img
+								<img
 									th:src="${(newsItem.getImage()==null) ? '' : newsItem.getImage()}"
-									class="card-img news-image" alt="..."> 
+									class="card-img news-image" alt="...">
 							</div>
 							<div class="card-body" style="padding-bottom: 0">
 								<h5 th:text=${newsItem.getTitle()} class="card-title"></h5>

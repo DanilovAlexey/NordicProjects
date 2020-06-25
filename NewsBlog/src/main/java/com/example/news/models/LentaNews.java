@@ -40,7 +40,14 @@ public class LentaNews extends NewsItem {
 
 	@Override
 	public String getImage() {
-		return titleImage.getUrl();
+		if (titleImage != null) {
+			
+			return titleImage.getUrl();
+		
+		} else {
+			return null;
+		}
+
 	}
 
 	@Override
