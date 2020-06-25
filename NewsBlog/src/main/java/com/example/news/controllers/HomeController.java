@@ -82,7 +82,6 @@ public class HomeController {
 
 		} else {
 			for (var item : news) {
-
 				if (item.getRubric().getSlug().equals(slug)) {
 					filteredNews.add(item);
 				}
@@ -91,7 +90,8 @@ public class HomeController {
 
 		HashSet<Rubric> rubrics = new HashSet<Rubric>();
 		for (var item : news) {
-			rubrics.add(item.getRubric());
+			if (!item.getRubric().getSlug().equals("all"))
+				rubrics.add(item.getRubric());
 
 		}
 
