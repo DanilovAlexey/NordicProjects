@@ -168,8 +168,12 @@ public class HomeController {
 	@GetMapping("/blogs")
 	public ModelAndView blogs() {
 		var modelAndView = new ModelAndView();
+		
+		var blogs = blogStorage.getBlogsList();
+		blogs.sort((o1, o2) -> o1.getBlogDate() < o2.getBlogDate() ? 1 : -1);
+		
 		modelAndView.setViewName("views/blogs");
-		modelAndView.addObject("blogsList", blogStorage.getBlogsList());
+		modelAndView.addObject("blogsList", blogs);
 		modelAndView.addObject("usersList", usersStorage.getUsers());
 
 		return modelAndView;
