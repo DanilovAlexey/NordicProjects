@@ -12,4 +12,6 @@ public abstract class NewsItem {
 
 	public abstract Long getDate();
 
+	public abstract String getUrl();
+
 }

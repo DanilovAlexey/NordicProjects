@@ -41,9 +41,9 @@ public class LentaNews extends NewsItem {
 	@Override
 	public String getImage() {
 		if (titleImage != null) {
-			
+
 			return titleImage.getUrl();
-		
+
 		} else {
 			return null;
 		}
@@ -53,6 +53,11 @@ public class LentaNews extends NewsItem {
 	@Override
 	public Long getDate() {
 		return info.getModified();
+	}
+
+	@Override
+	public String getUrl() {
+		return links.getPublicField();
 	}
 
 }
