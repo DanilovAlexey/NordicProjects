@@ -18,4 +18,14 @@ public class LentaNewsRubric extends Rubric {
 	private String slug;
 	private String title;
 
+	@Override
+	public String getSlug() {
+		if (slug != null) {
+			return slug;
+
+		} else {
+			return "all";
+		}
+	}
+
 }

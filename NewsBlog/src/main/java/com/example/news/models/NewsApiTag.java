@@ -1,7 +1,5 @@
 package com.example.news.models;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -19,12 +17,17 @@ public class NewsApiTag extends Rubric {
 
 	private String name;
 
-	@JsonProperty("id")
-	private String path;
+	private String id;
 
 	@Override
 	public String getSlug() {
-		return path;
+		if (id != null) {
+			return id;
+		
+		} else {
+			return "all";
+		}
+
 	}
 
 	@Override

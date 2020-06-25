@@ -82,6 +82,7 @@ public class HomeController {
 
 		} else {
 			for (var item : news) {
+
 				if (item.getRubric().getSlug().equals(slug)) {
 					filteredNews.add(item);
 				}
