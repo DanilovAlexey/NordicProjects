@@ -41,6 +41,11 @@
 			//console.log($(elem).children('a').text());		
 		})
 		
+		$('.card').each((id, elem) => {
+			var url = $(elem).attr("href")
+			$(elem).on("click", () => window.open(url, '_blank'))
+		})
+		
 	});
 </script>
 </head>
@@ -55,7 +60,7 @@
 
 				<div id="rubrics" class="dropdown-menu"
 					aria-labelledby="dropdownMenuLink">
-					<a class="dropdown-item" href="/home?slug=all">Все
+					<a id="all" class="dropdown-item" href="/home?slug=all">Все
 						рубрики</a>
 					<th:block th:each="rubric : ${rubrics}">
 						<a class="dropdown-item" th:id="${rubric.getSlug()}"
@@ -77,7 +82,7 @@
 			<div class="container">
 				<th:block th:each="newsItem : ${news}">
 
-					<div class="card mb-3 post-container">
+					<div class="card mb-3 post-container" th:href="@{${newsItem.getUrl()}}">
 						<div style="display: flex">
 							<div>
 								<img

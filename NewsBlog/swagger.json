@@ -24,7 +24,7 @@
         "tags": [
           "admin"
         ],
-        "summary": "Shows the form for adding a message",
+        "summary": "Shows the form for adding a new blog",
         "description": "",
         "operationId": "index",
         "produces": [
@@ -40,7 +40,7 @@
         "tags": [
           "admin"
         ],
-        "summary": "Shows error message",
+        "summary": "Adds new blog to storage",
         "description": "",
         "operationId": "addBlogHandler",
         "produces": [
@@ -56,7 +56,7 @@
     "/login": {
       "get": {
         "tags": [
-          "admin"
+          "authentication"
         ],
         "summary": "Logs user into the system",
         "description": "",
@@ -74,9 +74,9 @@
     "/login-error": {
       "get": {
         "tags": [
-          "admin"
+          "authentication"
         ],
-        "summary": "Shows error message",
+        "summary": "Shows authentication error message",
         "description": "",
         "operationId": "loginPageError",
         "produces": [
@@ -92,9 +92,9 @@
     "/register": {
       "post": {
         "tags": [
-          "admin"
+          "authentication"
         ],
-        "summary": "Create user",
+        "summary": "Creates user",
         "description": "",
         "operationId": "register",
         "consumes": [
@@ -130,6 +130,14 @@
           "text/html"
         ],
         "parameters": [
+          {
+            "name": "id",
+            "in": "query",
+            "description": "Page number",
+            "required": false,
+            "type": "integer",
+            "format": "integer"
+          },
           {
             "name": "slug",
             "in": "query",
@@ -181,6 +189,49 @@
       },
       "xml": {
         "name": "User"
+      }
+    },
+    "BlogItem": {
+      "type": "object",
+      "properties": {
+        "blogBody": {
+          "type": "string"
+        },
+        "blogImage": {
+          "type": "string"
+        },
+        "blogDate": {
+          "type": "integer"
+        },
+        "userLogin": {
+          "type": "string"
+        }
+      },
+      "xml": {
+        "name": "BlogItem"
+      }
+    },
+    "NewsItem": {
+      "type": "object",
+      "properties": {
+        "newsTitle": {
+          "type": "string"
+        },
+        "newsBody": {
+          "type": "string"
+        },
+        "newsDate": {
+          "type": "string"
+        },
+        "newsLink": {
+          "type": "string"
+        },
+        "newsImage": {
+          "type": "string"
+        }
+      },
+      "xml": {
+        "name": "BlogItem"
       }
     }
   }

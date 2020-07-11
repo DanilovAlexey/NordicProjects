@@ -82,7 +82,6 @@ public class HomeController {
 
 		} else {
 			for (var item : news) {
-
 				if (item.getRubric().getSlug().equals(slug)) {
 					filteredNews.add(item);
 				}
@@ -91,7 +90,8 @@ public class HomeController {
 
 		HashSet<Rubric> rubrics = new HashSet<Rubric>();
 		for (var item : news) {
-			rubrics.add(item.getRubric());
+			if (!item.getRubric().getSlug().equals("all"))
+				rubrics.add(item.getRubric());
 
 		}
 
@@ -168,8 +168,12 @@ public class HomeController {
 	@GetMapping("/blogs")
 	public ModelAndView blogs() {
 		var modelAndView = new ModelAndView();
+		
+		var blogs = blogStorage.getBlogsList();
+		blogs.sort((o1, o2) -> o1.getBlogDate() < o2.getBlogDate() ? 1 : -1);
+		
 		modelAndView.setViewName("views/blogs");
-		modelAndView.addObject("blogsList", blogStorage.getBlogsList());
+		modelAndView.addObject("blogsList", blogs);
 		modelAndView.addObject("usersList", usersStorage.getUsers());
 
 		return modelAndView;
