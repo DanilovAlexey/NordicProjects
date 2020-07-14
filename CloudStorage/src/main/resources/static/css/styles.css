@@ -1,0 +1,24 @@
+@charset "UTF-8";
+
+#default-body {
+	  background: url(../images/fon.jpg)
+                no-repeat center center fixed;
+    background-size: cover;
+}
+
+#form-login {
+	position: absolute;
+	height: 100%;
+	background-color: #4b502bd6;
+	color: white;
+	right: 0;
+	width: 50%;
+	text-align: center;
+}
+
+#form-login form {
+	width: 100%;
+    max-width: 330px;
+    padding: 15px;
+    margin: 0 auto;
+}
