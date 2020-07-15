@@ -8,14 +8,36 @@ xmlns:sec="http://www.thymeleaf.org">
 <meta name="viewport"
 	content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-<title layout:title-pattern="$LAYOUT_TITLE - $CONTENT_TITLE">TouristeR</title>
+<title layout:title-pattern="$LAYOUT_TITLE - $CONTENT_TITLE">McCLOUD</title>
 
 <link rel="stylesheet"
 	href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" />
 <link rel="stylesheet" th:href="@{/css/styles.css}" />
 </head>
 <body>
+	<nav class="navbar fixed-top navbar-expand-lg nav-block">
+		<div class="container">
+			<a class="navbar-brand" href="home">McCLOUD</a>
+			<button class="navbar-toggler collapsed" type="button"
+				data-toggle="collapse" data-target="#navbars"
+				aria-controls="navbarsExample07" aria-expanded="false"
+				aria-label="Toggle navigation">
+				<span class="navbar-toggler-icon"></span>
+			</button>
 
+			<div class="navbar-collapse collapse" id="navbars" style="">
+				<ul class="navbar-nav mr-auto">
+					<li class="nav-item active"><a class="nav-link" href="home">Главная</a></li>
+					<li sec:authorize="hasRole('ROLE_ADMIN')" class="nav-item"><a class="nav-link" href="admin">Панель администратора</a></li>
+				</ul>
+				<ul class="navbar-nav navbar-right">
+					<li class="nav-item" style="display:flex"><span style="align-self:center" sec:authentication="name"></span></li>
+					<li class="nav-item"><a class="nav-link" href="logout">Выйти</a></li>
+				</ul>
+			</div>
+		</div>
+	</nav>
+	
 	<main role="main" class="container content">
 		<div layout:fragment="content"></div>		
 	</main>
