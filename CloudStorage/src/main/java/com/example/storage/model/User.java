@@ -5,6 +5,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 import lombok.AllArgsConstructor;
@@ -34,9 +36,18 @@ public class User {
 	@Column(name = "user_name")
 	private String userName;
 	
-	@Column(name = "user_password")
+	@Column(name = "user_password", updatable=false)
 	private String userPassword;
 
 	@Column(name = "user_role")
 	private String userRole;
+	
+	/*
+	@Column(name = "user_tariff")
+	private Integer userTariff;
+	*/
+	
+	@OneToOne
+    @JoinColumn(name = "user_tariff")
+    private Tariff tariff;
 }

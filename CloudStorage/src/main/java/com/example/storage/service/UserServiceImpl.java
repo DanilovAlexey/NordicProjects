@@ -1,6 +1,7 @@
 package com.example.storage.service;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -27,6 +28,23 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public List<User> getAllUsers() {
 		return userRepository.findAll();
+	}
+
+	@Override
+	public User getUserById(Integer id) {
+		return userRepository.getOne(id);
+	}
+
+	@Override
+	public User updateUser(User user) {
+		var updatedUser = userRepository.saveAndFlush(user);
+		return updatedUser;
+	}
+
+	@Override
+	public void deleteUser(User user) {
+		userRepository.delete(user);
+		
 	}
 
 }
