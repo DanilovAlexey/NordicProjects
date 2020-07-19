@@ -28,9 +28,9 @@ xmlns:sec="http://www.thymeleaf.org">
 			<div class="navbar-collapse collapse" id="navbars" style="">
 				<ul class="navbar-nav mr-auto">
 					<li class="nav-item active"><a class="nav-link" href="home">Главная</a></li>
-					<li sec:authorize="hasRole('ROLE_ADMIN')" class="nav-item"><a class="nav-link" href="admin">Панель администратора</a></li>
+					<li sec:authorize="hasRole('ROLE_admin')" class="nav-item"><a class="nav-link" href="admin">Панель администратора</a></li>
 				</ul>
-				<ul class="navbar-nav navbar-right">
+				<ul sec:authorize="isAuthenticated()" class="navbar-nav navbar-right">
 					<li class="nav-item" style="display:flex"><span style="align-self:center" sec:authentication="name"></span></li>
 					<li class="nav-item"><a class="nav-link" href="logout">Выйти</a></li>
 				</ul>

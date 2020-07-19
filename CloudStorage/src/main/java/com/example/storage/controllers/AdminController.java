@@ -1,5 +1,7 @@
 package com.example.storage.controllers;
 
+import java.util.Comparator;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.security.access.annotation.Secured;
@@ -36,8 +38,11 @@ public class AdminController {
 	public ModelAndView admin() {
 		var modelAndView = new ModelAndView();
 		
+		var usersList = userService.getAllUsers();
+		usersList.sort((o1, o2) -> o2.getUserId() > o1.getUserId()  ? 1 : -1);
+		
 		modelAndView.setViewName("views/admin/admin");
-		modelAndView.addObject("users", userService.getAllUsers());
+		modelAndView.addObject("users", usersList);
 		
 		return modelAndView;
 	}
