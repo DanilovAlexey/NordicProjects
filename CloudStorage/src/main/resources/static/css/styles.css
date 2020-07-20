@@ -1,0 +1,47 @@
+@charset "UTF-8";
+
+body {
+	  background: url(../images/fon.jpg)
+                no-repeat center center fixed;
+    background-size: cover;
+}
+
+#form-login {
+	position: absolute;
+	height: 100%;
+	background-color: #4b502bd6;
+	color: white;
+	right: 0;
+	width: 50%;
+	text-align: center;
+}
+
+#form-login form {
+	width: 100%;
+    max-width: 330px;
+    padding: 15px;
+    margin: 0 auto;
+}
+
+.nav-block {
+	background-color: #404204cf;
+	color: white;
+}
+
+.nav-block a {
+	color: white;
+}
+
+
+.content {
+	background-color: white;
+	margin-top: 100px;
+	min-height: 800px;
+	border-radius: 7px;
+	border: 2px solid white;
+}
+
+.content > div {
+	margin-top: 15px;
+	margin-bottom: 30px;
+}
