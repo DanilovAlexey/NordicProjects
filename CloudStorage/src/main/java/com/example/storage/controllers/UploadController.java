@@ -62,5 +62,13 @@ public class UploadController {
 		return "redirect:/home";
 	}
 	
+	@PostMapping("/home/delete/{id}")
+	public String deleteFileById(@PathVariable(name = "id") Integer id) throws IOException {
+		fileService.deleteFile(fileService.getFileById(id));
+		//Files.delete(Paths.get(cloudFolder + File.separator + id));
+
+		return "redirect:/home";
+	}
+		
 
 }

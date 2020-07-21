@@ -33,7 +33,11 @@
 					<td><a th:text="${file.getFileName()}"></a></td>
 					<td th:text="${file.getSize()}"></td>
 					<td th:text="${file.getUser().getUserName()}"></td>
-					<td><a href="#">Удалить</a></td>
+					<td>
+						<form style="text-align: center" th:action="@{/home/delete/{id}(id=${file.getFileId()})}" method="POST" th:object="${file}">
+							<button style="text-align: center" type="submit" class="btn btn-primary">Удалить</button>
+						</form>
+					</td>
 				</tr>
 			</tbody>
 		</table>

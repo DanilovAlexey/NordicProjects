@@ -33,5 +33,9 @@ public class FileServiceImpl implements FileService  {
 		fileRepository.delete(file);
 		
 	}
+	@Override
+	public FileM getFileById(Integer id) {
+		return fileRepository.getOne(id);
+	}
 
 }

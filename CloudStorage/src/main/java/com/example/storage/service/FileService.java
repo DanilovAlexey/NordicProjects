@@ -9,5 +9,6 @@ public interface FileService {
 	FileM addFile(FileM file);
 	List<FileM> getAllFiles();
 	FileM updateFile(FileM file);
+	FileM getFileById (Integer id);
 	void deleteFile(FileM file);
 }

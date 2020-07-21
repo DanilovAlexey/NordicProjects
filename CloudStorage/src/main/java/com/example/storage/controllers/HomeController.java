@@ -20,7 +20,6 @@ import com.example.storage.service.UserService;
 @Controller
 @Secured({"ROLE_admin", "ROLE_user"})
 public class HomeController {
-
 	
 	@Autowired
 	@Qualifier("fileServiceImpl")
