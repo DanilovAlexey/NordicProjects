@@ -6,7 +6,37 @@
 </head>
 <body>
 	<div layout:fragment="content" class="container">
-		<p>Здесь будут перечисдены файлы и загрузка</p>
+		<form th:action="@{/upload}" method="POST"
+			enctype="multipart/form-data" class="form-inline">
+			<input type="file" name="uploadFile" /> <input type="submit"
+				class="btn btn-primary" />
+			<!-- <button class="btn btn-lg btn-primary btn-block" type="submit">Загрузить</button>
+			 -->
+		</form>
+
+		<h4>Список файлов пользователя</h4>
+		<table class="table">
+			<thead>
+				<tr>
+					<th>id</th>
+					<th>Путь</th>
+					<th>Имя файла</th>
+					<th>Размер, KB</th>
+					<th>Пользователь</th>
+					<th></th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr th:each="file : ${files}">
+					<td th:text="${file.getFileId()}"></td>
+					<td th:text="${file.getPath()}"></td>
+					<td><a th:text="${file.getFileName()}"></a></td>
+					<td th:text="${file.getSize()}"></td>
+					<td th:text="${file.getUser().getUserName()}"></td>
+					<td><a href="#">Удалить</a></td>
+				</tr>
+			</tbody>
+		</table>
 	</div>
 </body>
 </html>
