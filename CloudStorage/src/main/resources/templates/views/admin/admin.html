@@ -6,7 +6,13 @@
 </head>
 <body>
 	<div layout:fragment="content" class="container">
-		<h4>Список пользователей</h4>
+		<nav class="navbar navbar-light bg-light">
+  			<a class="navbar-brand"><h4>Список пользователей</h4></a>
+  		<form class="form-inline" th:action="@{/admin/search}" method="GET">
+    		<input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+    		<button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+ 	 	</form>
+		</nav>
 		<table class="table">
 			<thead>
 				<tr>
@@ -27,7 +33,7 @@
 					<td th:text="${user.getTariff().getTariffName()}"></td>
 					<td>
 						<a th:href="@{/admin/edit/user/{id}(id=${user.getUserId()})}">Редактировать</a> | 
-						<a href="#">Удалить</a>
+						<a th:href="@{/admin/delete/user/{id}(id=${user.getUserId()})}">Удалить</a>
 					</td>
 				</tr>
 			</tbody>

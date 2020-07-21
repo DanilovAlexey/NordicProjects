@@ -20,6 +20,7 @@
 						placeholder="Пароль" required>
 					<button class="btn btn-lg btn-primary btn-block" type="submit">Войти</button>
 					<a class="nav-link" href="register">Регистрация</a>
+					<div th:if="${error}">Неправильный логин или пароль!</div>
 				</form>
 			</div>
 		</div>
