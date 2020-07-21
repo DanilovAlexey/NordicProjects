@@ -14,6 +14,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.util.MimeTypeUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.storage.model.FileM;
@@ -24,12 +26,14 @@ public class DownloadController {
 
 	@Autowired
 	@Qualifier("fileServiceImpl")
-	private FileService fileService;
+	private FileService fileService;	
 	
-	@GetMapping("/download")
-	private ResponseEntity<byte[]> download(@ModelAttribute FileM fileM) throws IOException{
-		fileM.getPath();
-		var path = Paths.get("C:\\Users\\smagi\\Desktop\\Cloud\\qwe.png");
+	@GetMapping("/download/{id}")
+	private ResponseEntity<byte[]> download(@PathVariable(name = "id") Integer id) throws IOException{
+
+		System.out.println(fileService.getFileById(id).getPath()) ;
+		//var path = Paths.get("C:\\Users\\smagi\\Desktop\\Cloud\\qwe.png");
+		var path = Paths.get(fileService.getFileById(id).getPath());
 		var content = Files.readAllBytes(path);
 		
 		var tika = new Tika();

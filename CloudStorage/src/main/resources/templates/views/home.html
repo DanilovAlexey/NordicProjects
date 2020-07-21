@@ -6,7 +6,6 @@
 </head>
 <body>
 	<div layout:fragment="content" class="container">
-		<p>Здесь будут перечисдены файлы и загрузка</p>
 		<form  th:action="@{/upload}" method="POST" enctype="multipart/form-data">
 			<input type="file" name="uploadFile"/> 
 			<input type="submit"/>
@@ -30,7 +29,7 @@
 				<tr th:each="file : ${files}">
 					<td th:text="${file.getFileId()}"></td>
 					<td th:text="${file.getPath()}"></td>
-					<td><a th:text="${file.getFileName()}"></a></td>
+					<td><a th:href="@{/download/{id}(id=${file.getFileId()})}" th:text="${file.getFileName()}"></a></td>
 					<td th:text="${file.getSize()}"></td>
 					<td th:text="${file.getUser().getUserName()}"></td>
 					<td>
