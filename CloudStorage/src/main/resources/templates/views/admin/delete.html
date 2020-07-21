@@ -6,14 +6,9 @@
 </head>
 <body>
 	<div layout:fragment="content" class="container">
-		<nav class="navbar navbar-light bg-light">
-  			<a class="navbar-brand"><h4>Список пользователей</h4></a>
-  		<form class="form-inline" th:action="@{/admin/search}" method="GET">
-    		<input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
-    		<button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
- 	 	</form>
-		</nav>
-		<table class="table">
+		<h4 style="text-align: center"
+			th:text="'Вы действительно хотите удалить пользователя ' + ${user.getUserName()}+'?'"></h4>
+		<table style="margin-top: 40px" class="table">
 			<thead>
 				<tr>
 					<th>id</th>
@@ -25,19 +20,29 @@
 				</tr>
 			</thead>
 			<tbody>
-				<tr th:each="user : ${users}">
+				<tr>
 					<td th:text="${user.getUserId()}"></td>
 					<td th:text="${user.getUserEmail()}"></td>
 					<td th:text="${user.getUserName()}"></td>
 					<td th:text="${user.getUserRole()}"></td>
 					<td th:text="${user.getTariff().getTariffName()}"></td>
-					<td>
-						<a th:href="@{/admin/edit/user/{id}(id=${user.getUserId()})}">Редактировать</a> | 
-						<a th:href="@{/admin/delete/user/{id}(id=${user.getUserId()})}">Удалить</a>
-					</td>
 				</tr>
 			</tbody>
 		</table>
+
+		<form class="form-row"
+			style="justify-content: center"
+			th:action="@{/admin/delete/{id}(id=${user.getUserId()})}"
+			method="POST" th:object="${user}">
+			<button style="text-align: center" type="submit"
+				class="btn btn-primary">Да</button>
+				
+				<a th:href="@{/admin}"class="btn btn-link">Отмена</a>
+		</form>
+
+
+
 	</div>
+
 </body>
 </html>
