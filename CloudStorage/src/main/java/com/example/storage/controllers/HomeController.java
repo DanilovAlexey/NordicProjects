@@ -34,12 +34,11 @@ public class HomeController {
 	public ModelAndView index( Authentication authentication) {
 		var modelAndView = new ModelAndView();
 		
-		var filesList = fileService.getAllFiles();
 		var currUser = userService.getUser(authentication.getName());
 		
 		modelAndView.setViewName("views/home");
 		modelAndView.addObject("files", currUser.getFiles());
-		System.out.println(currUser.getUserId());
+		//System.out.println(currUser.getUserId());
 		
 		return modelAndView;
 	}

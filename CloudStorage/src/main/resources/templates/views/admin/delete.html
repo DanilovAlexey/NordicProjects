@@ -6,9 +6,10 @@
 </head>
 <body>
 	<div layout:fragment="content" class="container">
-		<h4 style="text-align: center" th:text="'Вы действительно хотите удалить пользователя ' + ${user.getUserName()}+'?'"></h4>
+		<h4 style="text-align: center"
+			th:text="'Вы действительно хотите удалить пользователя ' + ${user.getUserName()}+'?'"></h4>
 		<table style="margin-top: 40px" class="table">
-		<thead>
+			<thead>
 				<tr>
 					<th>id</th>
 					<th>Почта</th>
@@ -19,21 +20,26 @@
 				</tr>
 			</thead>
 			<tbody>
+				<tr>
 					<td th:text="${user.getUserId()}"></td>
 					<td th:text="${user.getUserEmail()}"></td>
 					<td th:text="${user.getUserName()}"></td>
 					<td th:text="${user.getUserRole()}"></td>
 					<td th:text="${user.getTariff().getTariffName()}"></td>
+				</tr>
 			</tbody>
-			</table>
+		</table>
 
-		<form style="text-align: center" th:action="@{/admin/delete/{id}(id=${user.getUserId()})}" method="POST" th:object="${user}">
-			<button style="text-align: center" type="submit" class="btn btn-primary">Да</button>
+		<form class="form-row"
+			style="justify-content: center"
+			th:action="@{/admin/delete/{id}(id=${user.getUserId()})}"
+			method="POST" th:object="${user}">
+			<button style="text-align: center" type="submit"
+				class="btn btn-primary">Да</button>
+				
+				<a th:href="@{/admin}"class="btn btn-link">Отмена</a>
 		</form>
 
-		<form style="text-align: center; margin-top: 20px" th:action="@{/admin}" method="GET" th:object="${user}">
-			<button type="submit" class="btn btn-primary">Нет</button>
-		</form>
 
 
 	</div>

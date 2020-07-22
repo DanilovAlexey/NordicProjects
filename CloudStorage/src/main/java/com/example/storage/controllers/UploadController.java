@@ -3,6 +3,7 @@ package com.example.storage.controllers;
 import java.io.File;
 import java.io.IOException;
 import java.util.List;
+import java.util.UUID;
 
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.FilenameUtils;
@@ -56,6 +57,7 @@ public class UploadController {
 		fileM.setFileName(transferFile.getName());
 		fileM.setPath(transferFile.getCanonicalPath());
 		fileM.setSize((int)transferFile.length()/1024);
+		fileM.setFileUUID(UUID.randomUUID());
 		
 		fileService.addFile(fileM);
 		

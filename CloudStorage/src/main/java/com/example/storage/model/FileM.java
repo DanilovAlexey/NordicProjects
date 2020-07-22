@@ -1,5 +1,7 @@
 package com.example.storage.model;
 
+import java.util.UUID;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -8,6 +10,8 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+
+import org.hibernate.annotations.GenericGenerator;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -36,6 +40,10 @@ public class FileM {
 
 	@Column(name = "size")
 	private Integer size;
+
+
+	@Column(name = "file_uuid", unique=true)
+	private UUID fileUUID;
 	
 	@ManyToOne
     @JoinColumn(name = "user_id")
