@@ -33,7 +33,7 @@ public class DownloadController {
 	@GetMapping("/download/{id}")
 	private ResponseEntity<byte[]> download(@PathVariable(name = "id") UUID id) throws IOException{
 
-		System.out.println(fileService.getFileByUUID(id).getPath().trim()) ;
+		//System.out.println(fileService.getFileByUUID(id).getPath().trim()) ;
 		//var path = Paths.get("C:\\Users\\smagi\\Desktop\\Cloud\\qwe.png");
 		var path = Paths.get(fileService.getFileByUUID(id).getPath().trim());
 		var content = Files.readAllBytes(path);

@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{template}">
+<head>
+</head>
+<body>
+	<div layout:fragment="content" class="container">
+		<nav class="navbar navbar-light bg-light">
+			<a class="navbar-brand"><h4>Список пользователей</h4></a>
+			<form class="form-inline" th:action="@{/admin/search}" method="POST"
+				th:object="${email}">
+				<input class="form-control mr-sm-2" type="search"
+					placeholder="Search" aria-label="Search" th:field="*{userEmail}">
+				<button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+			</form>
+		</nav>
+		<div th:if="${isUser}">
+			<table class="table">
+				<thead>
+					<tr>
+						<th>id</th>
+						<th>Почта</th>
+						<th>Имя</th>
+						<th>Роль</th>
+						<th>Тариф</th>
+						<th></th>
+					</tr>
+				</thead>
+				<tbody>
+					<td th:text="${user.getUserId()}"></td>
+					<td th:text="${user.getUserEmail()}"></td>
+					<td th:text="${user.getUserName()}"></td>
+					<td th:text="${user.getUserRole()}"></td>
+					<td th:text="${user.getTariff().getTariffName()}"></td>
+					<td><a
+						th:href="@{/admin/edit/user/{id}(id=${user.getUserId()})}">Редактировать</a>
+						| <a th:href="@{/admin/delete/user/{id}(id=${user.getUserId()})}">Удалить</a>
+					</td>
+				</tbody>
+			</table>
+		</div>
+
+		<div th:if="${error}">
+			<h5>Ничего не найдено</h5>
+		</div>
+	</div>
+</body>
+</html>
