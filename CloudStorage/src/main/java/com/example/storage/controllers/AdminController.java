@@ -48,6 +48,7 @@ public class AdminController {
 
 		modelAndView.setViewName("views/admin/admin");
 		modelAndView.addObject("users", usersList);
+		modelAndView.addObject("user", new User());
 
 		return modelAndView;
 	}
@@ -87,6 +88,25 @@ public class AdminController {
 		Files.delete(Paths.get(cloudFolder + File.separator + id));
 
 		return "redirect:/admin";
+	}
+
+	@PostMapping("/search")
+	public ModelAndView searchUser(@ModelAttribute User email) {
+		var modelAndView = new ModelAndView();
+		modelAndView.setViewName("views/admin/result");
+		User user = userService.getUser(email.getUserEmail());
+		
+		if (user != null) {
+			modelAndView.addObject("user", user);
+			modelAndView.addObject("isUser",true);
+		
+		} else {
+			modelAndView.addObject("error", true);
+		}
+		modelAndView.addObject("email",new User());
+
+		return modelAndView;
+
 	}
 
 }
