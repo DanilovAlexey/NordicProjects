@@ -6,6 +6,9 @@
 </head>
 <body>
 	<div layout:fragment="content" class="container">
+		<div class="progress">
+			<div class="progress-bar progress-bar-striped bg-info" role="progressbar" th:style="${width}" aria-valuenow="" aria-valuemin="0" aria-valuemax="100" th:text="${count}">%</div>
+		</div>
 		<form th:action="@{/upload}" method="POST"
 			enctype="multipart/form-data" class="form-inline">
 			<input type="file" name="uploadFile" /> <input type="submit"
@@ -19,7 +22,7 @@
 			<thead>
 				<tr>
 					<th>id</th>
-					<th>Путь</th>
+					<!-- <th>Путь</th> -->
 					<th>Имя файла</th>
 					<th>Размер, KB</th>
 					<th>Пользователь</th>
@@ -29,14 +32,13 @@
 			<tbody>
 				<tr th:each="file : ${files}">
 					<td th:text="${file.getFileId()}"></td>
-					<td th:text="${file.getPath()}"></td>
+					<!-- <td th:text="${file.getPath()}"></td> -->
 					<td><a th:text="${file.getFileName()}"></a></td>
 					<td th:text="${file.getSize()}"></td>
 					<td th:text="${file.getUser().getUserName()}"></td>
 					<td><a href="#">Удалить</a> | <a href="#" role="button"
 						class="btn btn-link" data-toggle="popover" title="Ссылка на файл"
-						th:attr="data-content=@{localhost:8080/public/download(id=${file.getFileUUID()})}"
-						>Ссылка</a>
+						th:attr="data-content=@{localhost:8080/public/download(id=${file.getFileUUID()})}">Ссылка</a>
 					</td>
 				</tr>
 			</tbody>
