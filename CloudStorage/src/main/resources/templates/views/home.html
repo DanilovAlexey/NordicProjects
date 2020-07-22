@@ -3,24 +3,37 @@
 	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
 	layout:decorate="~{template}">
 <head>
+<script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+<script>
+$(function() {
+	function deleteFile(fileId) {
+		$.ajax({
+			  type: "POST",
+			  url: "/file/delete/"+fileId,
+			  success:  () => location.reload()
+			});
+
+	}
+	
+	$('.deleteButton').each((id, el) => {
+		$(el).click(() => deleteFile(el.value))
+	})
+})
+</script>
 </head>
 <body>
 	<div layout:fragment="content" class="container">
-		<form th:action="@{/upload}" method="POST"
+		<form th:action="@{/file/upload}" method="POST"
 			enctype="multipart/form-data" class="form-inline">
 			<input type="file" name="uploadFile" /> <input type="submit"
 				class="btn btn-primary" />
-			<!-- <button class="btn btn-lg btn-primary btn-block" type="submit">Загрузить</button>
-			 -->
 		</form>
 
 		<h4>Список файлов пользователя</h4>
 		<table class="table">
 			<thead>
 				<tr>
-					<th>id</th>
-					<th>Путь</th>
-					<th>Имя файла</th>
+					<th>Файл</th>
 					<th>Размер, KB</th>
 					<th>Пользователь</th>
 					<th></th>
@@ -28,20 +41,22 @@
 			</thead>
 			<tbody>
 				<tr th:each="file : ${files}">
-					<td th:text="${file.getFileId()}"></td>
-					<td th:text="${file.getPath()}"></td>
-					<td><a th:text="${file.getFileName()}"></a></td>
+					<td><a th:href="@{/download/{id}(id=${file.getFileUUID()})}"
+						th:text="${file.getFileName()}"></a></td>
 					<td th:text="${file.getSize()}"></td>
 					<td th:text="${file.getUser().getUserName()}"></td>
-					<td><a href="#">Удалить</a> | <a href="#" role="button"
-						class="btn btn-link" data-toggle="popover" title="Ссылка на файл"
-						th:attr="data-content=@{localhost:8080/public/download(id=${file.getFileUUID()})}"
-						>Ссылка</a>
-					</td>
+					<td><a href="#" role="button" class="btn btn-link"
+						data-toggle="popover" title="Ссылка на файл"
+						th:attr="data-content=@{localhost:8080/download/{id}(id=${file.getFileUUID()})}">Поделиться</a>
+						|
+						<button class="btn btn-link"
+							th:value="${file.getFileId()}">Обновить ссылку</button>
+						|
+						<button class="btn btn-link deleteButton"
+							th:value="${file.getFileId()}">Удалить</button></td>
 				</tr>
 			</tbody>
 		</table>
 	</div>
-
 </body>
 </html>
