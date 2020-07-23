@@ -47,6 +47,9 @@ public class HomeController {
 		var y = FileUtils.sizeOfDirectory(new File(cloudFolder + File.separator + currUser.getUserId()));
 		var x = currUser.getTariff().getTariffLimitMb();
 		var result = y * 1.0 / (x * 1048576) * 100;
+		if (result > 100) {
+			result = 100;
+		}
 		modelAndView.addObject("count", Math.ceil(result) + "%");
 		modelAndView.addObject("width", "width: " + Math.ceil(result) + "%");
 		modelAndView.addObject("files", currUser.getFiles());
