@@ -19,7 +19,10 @@ $(function() {
 		$.ajax({
 			  type: "POST",
 			  url: "/file/update/"+fileId,
-			  success:  () => alert("Ссылка на файл обновлена.")
+			  success:  () => {
+				  alert("Ссылка на файл обновлена.");
+				  location.reload();
+			  }
 			});
 
 	}
