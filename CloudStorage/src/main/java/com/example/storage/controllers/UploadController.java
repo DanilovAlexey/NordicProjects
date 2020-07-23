@@ -1,9 +1,14 @@
 package com.example.storage.controllers;
 
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.List;
 import java.util.UUID;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipOutputStream;
 
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.FilenameUtils;
@@ -53,31 +58,61 @@ public class UploadController {
 	
 	@PostMapping("/upload")
 	public String sendFile(@RequestParam(name="uploadFile")MultipartFile file, Model model, @ModelAttribute FileM fileM, Authentication authentication) throws IOException {
-		var extension = FilenameUtils.getExtension(file.getOriginalFilename());
-		var transferFile = File.createTempFile("inordic_", "_temp." + extension, new File(cloudFolder));
+		var extension = FilenameUtils.getExtension(file.getOriginalFilename());		
 		var currUser = userService.getUser(authentication.getName());
+		var currUserName = currUser.getUserName();
+		// Формируем путь к папке пользователя
+		File userDir = new File(cloudFolder + "\\" + currUserName.trim() + "_dir");
+		// Создаем временный файл
+        var transferFile = File.createTempFile("inordic_", "_temp." + extension, userDir);
+        // Имя архива
+		var zipFileName = FilenameUtils.removeExtension(transferFile.getName()) + ".zip";
 		
-		file.transferTo(transferFile);
-		//System.out.println(transferFile.length()/1024);
-		//System.out.println(FileUtils.byteCountToDisplaySize(transferFile.length()));
-		
-		fileM.setUser(currUser);
-		fileM.setFileName(transferFile.getName());
-		fileM.setPath(transferFile.getCanonicalPath());
-		fileM.setSize((int)transferFile.length()/1024);
-		fileM.setFileUUID(UUID.randomUUID());
-		
-		fileService.addFile(fileM);
-		
+		// Создаем папку
+		if (userDir.mkdir()) {
+            System.out.println("Создана новая папка");
+        } else {
+            System.out.println("Папка существует");
+        }
+
+        file.transferTo(transferFile);
+        // Архивируем временный файл
+		try (
+			var fileOut = new FileOutputStream(new File(userDir, zipFileName));
+			var zipFileOut = new ZipOutputStream(fileOut)) {
+			
+			var transferZipFile = new File(userDir, zipFileName);
+			zipFileOut.putNextEntry(new ZipEntry(file.getOriginalFilename()));
+			zipFileOut.write(Files.readAllBytes(Paths.get(transferFile.getPath())));
+			zipFileOut.closeEntry();
+			
+			// Удаляем временный файл
+			File tempFileInDir = new File(transferFile.getPath());
+			tempFileInDir.delete();
+			
+			fileM.setUser(currUser);
+			fileM.setFileName(transferZipFile.getName());
+			fileM.setPath(transferZipFile.getCanonicalPath());
+			fileM.setSize((int)transferZipFile.length()/1024);
+			fileM.setFileUUID(UUID.randomUUID());
+			
+			// Добавляяем запись о загруженном файле в БД
+			fileService.addFile(fileM);
+		}	
+
 		return "redirect:/home";
 	}
-	
 
 	@PostMapping("/delete/{id}")
-	public String deleteFileById(@PathVariable(name = "id") UUID id) throws IOException {
-		//System.out.println(id);
+	public String deleteFileById(@PathVariable(name = "id") UUID id, Authentication authentication) throws IOException {
+		var currUser = userService.getUser(authentication.getName());
+		var currUserName = currUser.getUserName();
+		var zipFileName = FilenameUtils.removeExtension(fileService.getFileByUUID(id).getFileName()) + ".zip";
+		
+		File fileInDir = new File(cloudFolder + "\\" + currUserName.trim() + "_dir", zipFileName);
+		fileInDir.delete();
+		
 		fileService.deleteFile(fileService.getFileByUUID(id));
-		//Files.delete(Paths.get(cloudFolder + File.separator + id));
 
 		return "redirect:/home";
 	}
@@ -93,5 +128,4 @@ public class UploadController {
 		return "redirect:/home";
 	}
 		
-
 }
