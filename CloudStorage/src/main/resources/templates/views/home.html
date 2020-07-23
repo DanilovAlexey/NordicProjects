@@ -15,8 +15,21 @@ $(function() {
 
 	}
 	
+	function updateFile(fileId) {
+		$.ajax({
+			  type: "POST",
+			  url: "/file/update/"+fileId,
+			  success:  () => alert("Ссылка на файл обновлена.")
+			});
+
+	}
+	
 	$('.deleteButton').each((id, el) => {
 		$(el).click(() => deleteFile(el.value))
+	})
+	
+	$('.updateButton').each((id, el) => {
+		$(el).click(() => updateFile(el.value))
 	})
 })
 </script>
@@ -24,20 +37,48 @@ $(function() {
 <body>
 	<div layout:fragment="content" class="container">
 		<div class="progress">
-			<div class="progress-bar progress-bar-striped bg-info" role="progressbar" th:style="${width}" aria-valuenow="" aria-valuemin="0" aria-valuemax="100" th:text="${count}">%</div>
+			<div class="progress-bar progress-bar-striped bg-info"
+				role="progressbar" th:style="${width}" aria-valuenow=""
+				aria-valuemin="0" aria-valuemax="100" th:text="${count}">%</div>
 		</div>
-		<form th:action="@{/file/upload}" method="POST"
-			enctype="multipart/form-data" class="form-inline">
-			<input type="file" name="uploadFile" /> <input type="submit"
-				class="btn btn-primary" />
-		</form>
+		<!-- Button trigger modal -->
+		<button style="margin-top: 5%; float: right" type="button"
+			class="btn btn-primary" data-toggle="modal"
+			data-target="#exampleModal">Добавить файл</button>
 
-		<h4>Список файлов пользователя</h4>
+		<!-- Modal -->
+		<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog"
+			aria-labelledby="exampleModalLabel" aria-hidden="true">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h5 class="modal-title" id="exampleModalLabel">Добавление
+							файла</h5>
+						<button type="button" class="close" data-dismiss="modal"
+							aria-label="Close">
+							<span aria-hidden="true">&times;</span>
+						</button>
+					</div>
+					<div class="modal-body">
+						<form th:action="@{/file/upload}" method="POST"
+							enctype="multipart/form-data" class="form-inline">
+							<input type="file" name="uploadFile" /> <input type="submit"
+								class="btn btn-primary" />
+						</form>
+					</div>
+					<div class="modal-footer">
+						<a type="button" data-dismiss="modal">Отмена</a>
+					</div>
+
+				</div>
+			</div>
+		</div>
+
+		<h4 style="margin-top: 5%">Загружено</h4>
 		<table class="table">
 			<thead>
 				<tr>
 					<th>Файл</th>
-					<th>Имя файла</th>
 					<th>Размер, KB</th>
 					<th>Пользователь</th>
 					<th></th>
@@ -53,11 +94,10 @@ $(function() {
 						data-toggle="popover" title="Ссылка на файл"
 						th:attr="data-content=@{localhost:8080/download/{id}(id=${file.getFileUUID()})}">Поделиться</a>
 						|
-						<button class="btn btn-link"
-							th:value="${file.getFileId()}">Обновить ссылку</button>
-						|
+						<button class="btn btn-link updateButton"
+							th:value="${file.getFileUUID()}">Обновить ссылку</button> |
 						<button class="btn btn-link deleteButton"
-							th:value="${file.getFileId()}">Удалить</button></td>
+							th:value="${file.getFileUUID()}">Удалить</button></td>
 				</tr>
 			</tbody>
 		</table>

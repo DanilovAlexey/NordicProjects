@@ -74,11 +74,22 @@ public class UploadController {
 	
 
 	@PostMapping("/delete/{id}")
-	public String deleteFileById(@PathVariable(name = "id") Integer id) throws IOException {
-		System.out.println(id);
-		fileService.deleteFile(fileService.getFileById(id));
+	public String deleteFileById(@PathVariable(name = "id") UUID id) throws IOException {
+		//System.out.println(id);
+		fileService.deleteFile(fileService.getFileByUUID(id));
 		//Files.delete(Paths.get(cloudFolder + File.separator + id));
 
+		return "redirect:/home";
+	}
+	
+	@PostMapping("/update/{id}")
+	public String changeFileUUID(@PathVariable(name = "id") UUID id) {
+		
+		var file = fileService.getFileByUUID(id);
+		file.setFileUUID(UUID.randomUUID());
+		
+		fileService.updateFile(file);
+		
 		return "redirect:/home";
 	}
 		
