@@ -10,13 +10,19 @@ import org.apache.commons.io.FilenameUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.example.storage.model.FileM;
@@ -25,6 +31,8 @@ import com.example.storage.service.UserService;
 
 
 @Controller
+@RequestMapping("/file")
+@Secured({"ROLE_admin", "ROLE_user"})
 public class UploadController {
 	
 	@Autowired
@@ -64,5 +72,15 @@ public class UploadController {
 		return "redirect:/home";
 	}
 	
+
+	@PostMapping("/delete/{id}")
+	public String deleteFileById(@PathVariable(name = "id") Integer id) throws IOException {
+		System.out.println(id);
+		fileService.deleteFile(fileService.getFileById(id));
+		//Files.delete(Paths.get(cloudFolder + File.separator + id));
+
+		return "redirect:/home";
+	}
+		
 
 }

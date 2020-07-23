@@ -5,6 +5,8 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
+
 import com.example.storage.model.FileM;
 import com.example.storage.repository.FileRepository;
 
@@ -32,6 +34,14 @@ public class FileServiceImpl implements FileService  {
 	public void deleteFile(FileM file) {
 		fileRepository.delete(file);
 		
+	}
+	@Override
+	public FileM getFileById(Integer id) {
+		return fileRepository.findById(id).orElse(null);
+	}
+	@Override
+	public FileM getFileByUUID(UUID id) {
+		return fileRepository.findByFileUUID(id);
 	}
 
 }

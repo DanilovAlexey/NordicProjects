@@ -8,8 +8,8 @@
 	<div layout:fragment="content" class="container">
 		<nav class="navbar navbar-light bg-light">
   			<a class="navbar-brand"><h4>Список пользователей</h4></a>
-  		<form class="form-inline" th:action="@{/admin/search}" method="POST" th:object="${user}">
-    		<input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" th:field="*{userEmail}">
+  		<form class="form-inline" th:action="@{/admin/search}" method="GET">
+    		<input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
     		<button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
  	 	</form>
 		</nav>

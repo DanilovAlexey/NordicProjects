@@ -25,7 +25,7 @@ import lombok.ToString;
 @AllArgsConstructor
 @Getter
 @Setter
-@ToString
+@ToString(exclude = "user")
 public class FileM {
 	@Id
 	@Column(name = "file_id")
