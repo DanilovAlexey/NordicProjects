@@ -9,6 +9,7 @@ import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 import com.example.storage.service.FileService;
 import com.example.storage.service.UserService;
@@ -29,7 +30,7 @@ public class HomeController {
 	private String cloudFolder;
 
 	@GetMapping({ "/", "/home" })
-	public ModelAndView index(Authentication authentication) {
+	public ModelAndView index(@RequestParam(name="error", required=false) String error, Authentication authentication) {
 		var modelAndView = new ModelAndView();
 
 		var currUser = userService.getUser(authentication.getName());
@@ -46,6 +47,8 @@ public class HomeController {
 		modelAndView.addObject("count", Math.ceil(result) + "%");
 		modelAndView.addObject("width", "width: " + Math.ceil(result) + "%");
 		modelAndView.addObject("files", currUser.getFiles());
+		modelAndView.addObject("tariff", currUser.getTariff().getTariffName());
+		modelAndView.addObject("error", error);
 
 		return modelAndView;
 	}

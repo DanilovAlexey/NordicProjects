@@ -66,7 +66,11 @@ public class LoginController {
 
 			user.setUserRole("user");
 			user.setUserPassword(bcryptPasswordEncoder.encode(user.getUserPassword()));
-			user.setTariff(tariffService.getAllTariffs().get(0));
+			
+			var tariffs = tariffService.getAllTariffs();
+			tariffs.sort((o1, o2) -> o2.getTariffId() > o1.getTariffId() ? -1 : 1);
+			
+			user.setTariff(tariffs.get(0));
 
 			userService.addUser(user);
 

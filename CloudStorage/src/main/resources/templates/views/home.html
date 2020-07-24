@@ -39,6 +39,7 @@ $(function() {
 </head>
 <body>
 	<div layout:fragment="content" class="container">
+		<h4 th:text="'Тариф: ' +  ${tariff}"></h4>
 		<div class="progress">
 			<div class="progress-bar progress-bar-striped bg-info"
 				role="progressbar" th:style="${width}" aria-valuenow=""
@@ -76,7 +77,14 @@ $(function() {
 				</div>
 			</div>
 		</div>
-
+		<div th:if="${error}" class="alert alert-danger alert-dismissible fade show"
+			role="alert">
+			<strong th:text="${error}"></strong>
+			<button type="button" class="close" data-dismiss="alert"
+				aria-label="Close">
+				<span aria-hidden="true">&times;</span>
+			</button>
+		</div>
 		<h4 style="margin-top: 5%">Загружено</h4>
 		<table class="table">
 			<thead>

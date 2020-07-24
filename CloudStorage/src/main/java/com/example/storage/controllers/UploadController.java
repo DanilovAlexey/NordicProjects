@@ -8,6 +8,8 @@ import java.nio.file.Paths;
 import java.util.UUID;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
+
+import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.FilenameUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -23,6 +25,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
 import com.example.storage.model.FileM;
 import com.example.storage.service.FileService;
 import com.example.storage.service.UserService;
@@ -49,13 +53,22 @@ public class UploadController {
 	}
 
 	@PostMapping("/upload")
-	public String sendFile(@RequestParam(name = "uploadFile") MultipartFile file, Model model,
-			@ModelAttribute FileM fileM, Authentication authentication) throws IOException {
+	public String sendFile(@RequestParam(name = "uploadFile") MultipartFile file,
+			@ModelAttribute FileM fileM, Authentication authentication, RedirectAttributes redirectAttributes) throws IOException {
 		var extension = FilenameUtils.getExtension(file.getOriginalFilename());
 		var currUser = userService.getUser(authentication.getName());
 
 		File userDir = new File(cloudFolder + File.separator + currUser.getUserId());
 		userDir.mkdir();
+		
+		var y = FileUtils.sizeOfDirectory(userDir);
+		var x = currUser.getTariff().getTariffLimitMb();
+		
+		if ( y > x*1048576) {
+			redirectAttributes.addAttribute("error", "Нет свободного места. Лимит исчерпан.");
+			return "redirect:/home";
+		}
+		
 
 		var transferFile = File.createTempFile("inordic_", "_temp." + extension, userDir);
 		var zipFileName = FilenameUtils.removeExtension(transferFile.getName()) + ".zip";
