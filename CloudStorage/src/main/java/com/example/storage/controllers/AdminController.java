@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 
+import org.apache.commons.io.FileUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
@@ -85,7 +86,7 @@ public class AdminController {
 	@PostMapping("/delete/{id}")
 	public String deleteUserById(@PathVariable(name = "id") Integer id) throws IOException {
 		userService.deleteUser(userService.getUserById(id));
-		Files.delete(Paths.get(cloudFolder + File.separator + id));
+		FileUtils.deleteDirectory(new File(cloudFolder + File.separator + id));
 
 		return "redirect:/admin";
 	}
@@ -98,12 +99,12 @@ public class AdminController {
 		
 		if (user != null) {
 			modelAndView.addObject("user", user);
-			modelAndView.addObject("isUser",true);
-		
+			modelAndView.addObject("isUser", true);
+
 		} else {
 			modelAndView.addObject("error", true);
 		}
-		modelAndView.addObject("email",new User());
+		modelAndView.addObject("email", new User());
 
 		return modelAndView;
 
