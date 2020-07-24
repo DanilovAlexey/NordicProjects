@@ -19,7 +19,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import com.example.storage.model.User;
 import com.example.storage.service.TariffService;
 import com.example.storage.service.UserService;
-import com.example.storage.service.UserServiceImpl;
 
 @Controller
 public class LoginController {
@@ -71,8 +70,7 @@ public class LoginController {
 
 			userService.addUser(user);
 
-			System.out.println(user.getUserId());
-			var folder = Files.createDirectory(Paths.get(cloudFolder + File.separator + user.getUserId()));
+			Files.createDirectory(Paths.get(cloudFolder + File.separator + user.getUserId()));
 
 			return "redirect:/login";
 		}

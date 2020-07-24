@@ -1,7 +1,6 @@
 package com.example.storage.service;
 
 import java.util.List;
-import java.util.Optional;
 
 import com.example.storage.model.User;
 

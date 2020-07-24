@@ -1,8 +1,6 @@
 package com.example.storage.controllers;
 
 import java.io.File;
-import java.nio.file.Paths;
-
 import org.apache.commons.io.FileUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -10,15 +8,8 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
-
-import com.example.storage.model.User;
 import com.example.storage.service.FileService;
 import com.example.storage.service.UserService;
 
@@ -42,9 +33,11 @@ public class HomeController {
 		var modelAndView = new ModelAndView();
 
 		var currUser = userService.getUser(authentication.getName());
+		File userDir = new File(cloudFolder + File.separator + currUser.getUserId());
+		userDir.mkdir();
 
 		modelAndView.setViewName("views/home");
-		var y = FileUtils.sizeOfDirectory(new File(cloudFolder + File.separator + currUser.getUserId()));
+		var y = FileUtils.sizeOfDirectory(userDir);
 		var x = currUser.getTariff().getTariffLimitMb();
 		var result = y * 1.0 / (x * 1048576) * 100;
 		if (result > 100) {
